@@ -153,7 +153,6 @@ class Server {
 
     // serve static assets
     // TODO: <https://github.com/tunnckoCore/koa-better-serve/issues/13>
-    console.log('this.config.buildDir', this.config.buildDir);
     app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
 
     // koa-manifest-rev
