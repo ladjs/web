@@ -1204,6 +1204,12 @@ consolidate@^0.14.1:
   dependencies:
     bluebird "^3.1.1"
 
+consolidate@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/consolidate/-/consolidate-0.15.0.tgz#397918901297d5f657d0a6514a30502245a20980"
+  dependencies:
+    bluebird "^3.1.1"
+
 contains-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/contains-path/-/contains-path-0.1.0.tgz#fe8cf184ff6670b6baef01a9d4861a5cbec4120a"
@@ -3409,6 +3415,17 @@ koa-views@^6.1.2:
   resolved "https://registry.yarnpkg.com/koa-views/-/koa-views-6.1.2.tgz#620953020715906081e5624bec825078fa33a948"
   dependencies:
     consolidate "^0.14.1"
+    debug "^3.0.1"
+    get-paths "^0.0.2"
+    koa-send "^4.0.0"
+    mz "^2.4.0"
+    pretty "^2.0.0"
+
+"koa-views@https://github.com/niftylettuce/koa-views":
+  version "6.1.2"
+  resolved "https://github.com/niftylettuce/koa-views#afaf8a3b0d2ec4c3bffc0a45608f7ed1096eb86b"
+  dependencies:
+    consolidate "^0.15.0"
     debug "^3.0.1"
     get-paths "^0.0.2"
     koa-send "^4.0.0"
