@@ -42,12 +42,12 @@ const Auth = require('@ladjs/auth');
 const StateHelper = require('@ladjs/state-helper');
 
 class Server {
+  // eslint-disable-next-line complexity
   constructor(config) {
     this.config = Object.assign(
       {
         cabin: {},
-        protocol: process.env.WEB_PROTOCOL | 'http',
-        port: process.env.WEB_PORT || 3000,
+        protocol: process.env.WEB_PROTOCOL || 'http',
         ssl: {
           key: process.env.WEB_SSL_KEY_PATH
             ? fs.readFileSync(process.env.WEB_SSL_KEY_PATH)
@@ -309,12 +309,19 @@ class Server {
       server = https.createServer(this.config.ssl, app.callback());
     else server = http.createServer(app.callback());
 
+    // expose app and server
+    this.app = app;
     this.server = server;
 
     autoBind(this);
   }
 
-  listen(fn) {
+  listen(port, fn) {
+    if (_.isFunction(port)) {
+      fn = port;
+      port = null;
+    }
+
     const { logger } = this.config;
     if (!_.isFunction(fn))
       fn = function() {
@@ -324,10 +331,13 @@ class Server {
         );
       };
 
-    this.server = this.server.listen(this.config.port, fn);
+    this.server = this.server.listen(port, fn);
+    return this.server;
   }
+
   close(fn) {
     this.server.close(fn);
+    return this;
   }
 }
 
