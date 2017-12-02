@@ -123,7 +123,9 @@ class Server {
       process.env.REDIS_URL || 'redis://localhost:6379'
     );
     // handle connect and error events
-    redisClient.on('connect', () => app.emit('log', 'info', 'redis connected'));
+    redisClient.on('connect', () =>
+      app.emit('log', 'debug', 'redis connected')
+    );
     redisClient.on('error', err => app.emit('error', err));
 
     // initialize redis store
