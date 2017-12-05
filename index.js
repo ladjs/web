@@ -182,8 +182,6 @@ class Server {
     app.use(responseTime());
 
     // add the logger for development environment only
-    // TODO: there's a weird logger issue, see this GH issue
-    // <https://github.com/koajs/logger/issues/49>
     if (process.env.NODE_ENV === 'development') app.use(koaLogger());
 
     // rate limiting
