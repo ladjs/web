@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const autoBind = require('auto-bind');
 const _ = require('lodash');
-const Boom = require('boom');
 const Koa = require('koa');
 const Cabin = require('cabin');
 const livereload = require('koa-livereload');
@@ -31,7 +30,6 @@ const redis = require('redis');
 const RedisStore = require('koa-redis');
 const session = require('koa-generic-session');
 const flash = require('koa-better-flash');
-const CSRF = require('koa-csrf');
 const StoreIPAddress = require('@ladjs/store-ip-address');
 const isajax = require('koa-isajax');
 const ip = require('ip');
@@ -80,11 +78,23 @@ class Server {
             extension: 'pug'
           }
         },
-        csrf: {},
         sessionKeys: process.env.SESSION_KEYS
           ? process.env.SESSION_KEYS.split(',')
           : ['lad'],
         cookiesKey: process.env.COOKIES_KEY || 'lad.sid',
+        // <https://github.com/pillarjs/cookies#cookiesset-name--value---options-->
+        // <https://github.com/koajs/generic-session/blob/master/src/session.js#L32-L38>
+        cookies: {
+          httpOnly: true,
+          path: '/',
+          overwrite: true,
+          signed: true,
+          maxAge: 24 * 60 * 60 * 1000,
+          secure: process.env.WEB_PROTOCOL === 'https',
+          // we use SameSite cookie support as an alternative to CSRF
+          // <https://scotthelme.co.uk/csrf-is-dead/>
+          sameSite: true
+        },
         livereload: {
           port: process.env.LIVERELOAD_PORT || 35729
         },
@@ -212,7 +222,13 @@ class Server {
 
     // session store
     app.keys = this.config.sessionKeys;
-    app.use(session({ store: redisStore, key: this.config.cookiesKey }));
+    app.use(
+      session({
+        store: redisStore,
+        key: this.config.cookiesKey,
+        cookie: this.config.cookies
+      })
+    );
 
     // flash messages
     app.use(flash());
@@ -236,33 +252,11 @@ class Server {
     // 404 handler
     app.use(koa404Handler);
 
-    // csrf (with added localization support)
     app.use((ctx, next) => {
       // TODO: add cookies key until koa-better-error-handler issue is resolved
       // <https://github.com/koajs/generic-session/pull/95#issuecomment-246308544>
       ctx.state.cookiesKey = this.config.cookiesKey;
       return next();
-    });
-    app.use(async (ctx, next) => {
-      if (process.env.NODE_ENV === 'test') {
-        logger.debug(`Skipping CSRF`);
-        return next();
-      }
-
-      try {
-        await new CSRF({
-          ...this.config.csrf,
-          invalidSessionSecretMessage: ctx.translate('INVALID_SESSION_SECRET'),
-          invalidTokenMessage: ctx.translate('INVALID_TOKEN')
-        })(ctx, next);
-      } catch (err) {
-        let e = err;
-        if (err.name && err.name === 'ForbiddenError') {
-          e = Boom.forbidden(err.message);
-          if (err.stack) e.stack = err.stack;
-        }
-        ctx.throw(e);
-      }
     });
 
     // auth
