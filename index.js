@@ -38,6 +38,8 @@ const Timeout = require('koa-better-timeout');
 const I18N = require('@ladjs/i18n');
 const Auth = require('@ladjs/auth');
 const StateHelper = require('@ladjs/state-helper');
+const Boom = require('boom');
+const CSRF = require('koa-csrf');
 
 class Server {
   // eslint-disable-next-line complexity
@@ -78,6 +80,7 @@ class Server {
             extension: 'pug'
           }
         },
+        csrf: {},
         sessionKeys: process.env.SESSION_KEYS
           ? process.env.SESSION_KEYS.split(',')
           : ['lad'],
@@ -93,7 +96,7 @@ class Server {
           secure: process.env.WEB_PROTOCOL === 'https',
           // we use SameSite cookie support as an alternative to CSRF
           // <https://scotthelme.co.uk/csrf-is-dead/>
-          sameSite: true
+          sameSite: 'lax'
         },
         livereload: {
           port: process.env.LIVERELOAD_PORT || 35729
@@ -257,6 +260,29 @@ class Server {
       // <https://github.com/koajs/generic-session/pull/95#issuecomment-246308544>
       ctx.state.cookiesKey = this.config.cookiesKey;
       return next();
+    });
+
+    // csrf (with added localization support)
+    app.use(async (ctx, next) => {
+      if (process.env.NODE_ENV === 'test') {
+        logger.debug(`Skipping CSRF`);
+        return next();
+      }
+
+      try {
+        await new CSRF({
+          ...this.config.csrf,
+          invalidSessionSecretMessage: ctx.translate('INVALID_SESSION_SECRET'),
+          invalidTokenMessage: ctx.translate('INVALID_TOKEN')
+        })(ctx, next);
+      } catch (err) {
+        let e = err;
+        if (err.name && err.name === 'ForbiddenError') {
+          e = Boom.forbidden(err.message);
+          if (err.stack) e.stack = err.stack;
+        }
+        ctx.throw(e);
+      }
     });
 
     // auth
