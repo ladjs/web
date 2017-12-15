@@ -53,9 +53,9 @@
     lodash "^4.17.4"
     passport-google-oauth "^1.0.0"
 
-"@ladjs/i18n@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.1.0.tgz#f07c39656e4950e3f1e8d93dd1a9cbd72dfd23aa"
+"@ladjs/i18n@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.1.1.tgz#c30315fffe8d93b492fd1026db7d6fe4f51270a6"
   dependencies:
     auto-bind "^1.1.0"
     boom "^7.1.1"
@@ -3341,9 +3341,9 @@ koa-manifest-rev@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/koa-manifest-rev/-/koa-manifest-rev-0.3.0.tgz#e043e26a2885c7419b2c8abbe49ed3657d03f48a"
 
-koa-meta@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/koa-meta/-/koa-meta-0.0.8.tgz#b6c72f716e882a83ecb3dcde5981da7ca87f6959"
+koa-meta@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/koa-meta/-/koa-meta-0.0.9.tgz#2767a43bcf4aef9f64dff1deedb3b457a424cb78"
   dependencies:
     auto-bind "^1.1.0"
     sanitize-html "^1.16.1"
