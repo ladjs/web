@@ -41,6 +41,13 @@ const StateHelper = require('@ladjs/state-helper');
 const Boom = require('boom');
 const CSRF = require('koa-csrf');
 
+let max = process.env.RATELIMIT_MAX
+  ? parseInt(process.env.RATELIMIT_MAX, 10)
+  : 100;
+
+if (!process.env.RATELIMIT_MAX && process.env.NODE_ENV === 'development')
+  max = Number.MAX_VALUE;
+
 class Server {
   // eslint-disable-next-line complexity
   constructor(config) {
@@ -66,13 +73,17 @@ class Server {
         meta: {},
         auth: {},
         rateLimit: {
-          duration: 60000,
-          max: process.env.RATELIMIT_MAX || 100,
+          duration: process.env.RATELIMIT_DURATION
+            ? parseInt(process.env.RATELIMIT_DURATION, 10)
+            : 60000,
+          max,
           id: ctx => ctx.ip
         },
         // <https://github.com/koajs/cors#corsoptions>
         cors: {},
-        timeoutMs: process.env.WEB_TIMEOUT_MS || 3000,
+        timeoutMs: process.env.WEB_TIMEOUT_MS
+          ? parseInt(process.env.WEB_TIMEOUT_MS, 10)
+          : 3000,
         views: {
           root: path.resolve('./app/views'),
           locals: {},
@@ -99,7 +110,9 @@ class Server {
           sameSite: 'lax'
         },
         livereload: {
-          port: process.env.LIVERELOAD_PORT || 35729
+          port: process.env.LIVERELOAD_PORT
+            ? parseInt(process.env.LIVERELOAD_PORT, 10)
+            : 35729
         },
         favicon: {
           path: path.resolve('./assets/img/favicon.ico'),
