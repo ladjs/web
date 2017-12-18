@@ -11,7 +11,6 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "@ladjs/auth": "^0.0.5",
     "@ladjs/i18n": "^0.1.1",
     "@ladjs/koa-better-static": "^1.0.5",
     "@ladjs/state-helper": "^0.0.1",
@@ -60,7 +59,7 @@
     "cross-env": "^5.1.1",
     "eslint": "^4.13.1",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-prettier": "^2.4.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
     "nyc": "^11.3.0",

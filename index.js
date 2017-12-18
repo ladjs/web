@@ -36,7 +36,6 @@ const ip = require('ip');
 const Meta = require('koa-meta');
 const Timeout = require('koa-better-timeout');
 const I18N = require('@ladjs/i18n');
-const Auth = require('@ladjs/auth');
 const StateHelper = require('@ladjs/state-helper');
 const Boom = require('boom');
 const CSRF = require('koa-csrf');
@@ -66,12 +65,11 @@ class Server {
             ? fs.readFileSync(process.env.WEB_SSL_CA_PATH)
             : null
         },
-        Users: false,
         routes: false,
         logger: console,
         i18n: {},
         meta: {},
-        auth: {},
+        passport: false,
         rateLimit: {
           duration: process.env.RATELIMIT_DURATION
             ? parseInt(process.env.RATELIMIT_DURATION, 10)
@@ -298,11 +296,10 @@ class Server {
       }
     });
 
-    // auth
-    if (this.config.Users) {
-      const auth = new Auth(this.config.Users, this.config.auth);
-      app.use(auth.passport.initialize());
-      app.use(auth.passport.session());
+    // passport
+    if (this.config.passport) {
+      app.use(this.config.passport.initialize());
+      app.use(this.config.passport.session());
     }
 
     // add dynamic view helpers
