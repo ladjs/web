@@ -11,9 +11,9 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "@ladjs/i18n": "^0.1.1",
+    "@ladjs/i18n": "^0.1.2",
     "@ladjs/koa-better-static": "^1.0.5",
-    "@ladjs/state-helper": "^0.0.1",
+    "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.4",
     "auto-bind": "^1.1.0",
     "boolean": "^0.1.3",

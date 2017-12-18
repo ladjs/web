@@ -44,18 +44,16 @@
   dependencies:
     arrify "^1.0.1"
 
-"@ladjs/i18n@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.1.1.tgz#c30315fffe8d93b492fd1026db7d6fe4f51270a6"
+"@ladjs/i18n@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.1.2.tgz#88bf50642331ce481820062a4619d2b504c037ce"
   dependencies:
     auto-bind "^1.1.0"
     boom "^7.1.1"
     country-language "^0.1.7"
     i18n "^0.8.3"
     i18n-locales "^0.0.2"
-    lodash.every "^4.6.0"
-    lodash.isempty "^4.4.0"
-    lodash.sortby "^4.7.0"
+    lodash "^4.17.4"
     moment "^2.18.1"
     qs "^6.5.1"
     underscore.string "^3.3.4"
@@ -67,9 +65,11 @@
     debug "*"
     resolve-path "^1.3.0"
 
-"@ladjs/state-helper@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ladjs/state-helper/-/state-helper-0.0.1.tgz#9bca27213209c3e472003c766aa9bf6ef7ceac33"
+"@ladjs/state-helper@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@ladjs/state-helper/-/state-helper-0.0.2.tgz#e25300ab24824304c2fdfb9d0f0380f55582d700"
+  dependencies:
+    lodash "^4.17.4"
 
 "@ladjs/store-ip-address@^0.0.4":
   version "0.0.4"
@@ -3592,10 +3592,6 @@ lodash.escaperegexp@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz#64762c48618082518ac3df4ccf5d5886dae20347"
 
-lodash.every@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.every/-/lodash.every-4.6.0.tgz#eb89984bebc4364279bb3aefbbd1ca19bfa6c6a7"
-
 lodash.flatten@^4.2.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
@@ -3607,10 +3603,6 @@ lodash.flattendeep@^4.4.0:
 lodash.isarray@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/lodash.isarray/-/lodash.isarray-4.0.0.tgz#2aca496b28c4ca6d726715313590c02e6ea34403"
-
-lodash.isempty@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
 
 lodash.isequal@^4.4.0, lodash.isequal@^4.5.0:
   version "4.5.0"
@@ -3635,10 +3627,6 @@ lodash.reduce@4.6.0:
 lodash.snakecase@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
-
-lodash.sortby@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
 lodash.upperfirst@^4.2.0:
   version "4.3.1"
