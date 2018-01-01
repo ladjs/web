@@ -208,8 +208,8 @@ class Server {
     // response time
     app.use(responseTime());
 
-    // add the logger for development environment only
-    if (process.env.NODE_ENV === 'development') app.use(koaLogger());
+    // request logger with custom logger
+    app.use(koaLogger({ logger }));
 
     // rate limiting
     app.use(
