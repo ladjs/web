@@ -669,7 +669,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
+babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -755,7 +755,7 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-boom@5.2.0, boom@^5.2.0:
+boom@5.2.0, boom@^5.1.0, boom@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
@@ -3204,16 +3204,15 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
-koa-404-handler@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/koa-404-handler/-/koa-404-handler-0.0.1.tgz#c23f9578bbe99d2c3539e42bf9855766e79dde64"
+koa-404-handler@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/koa-404-handler/-/koa-404-handler-0.0.2.tgz#a6b4350099560fb3042db3e57a39094b661bc558"
 
-koa-better-error-handler@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-1.3.2.tgz#609b3f54378a948f226aa4894b640ea7c7b7aa7d"
+koa-better-error-handler@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-1.3.4.tgz#63cc3cc7415a14ea3ec1d76d820125630ca10ad3"
   dependencies:
-    babel-runtime "^6.23.0"
-    boom "^7.1.1"
+    boom "^5.1.0"
     co "^4.6.0"
     debug "^3.0.1"
     lodash "^4.17.4"
