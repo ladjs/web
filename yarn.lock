@@ -307,9 +307,9 @@
   dependencies:
     arrify "^1.0.1"
 
-"@ladjs/i18n@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.3.0.tgz#d6526fd58c40c0c659808e53731d3fadaad5ce13"
+"@ladjs/i18n@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-0.3.1.tgz#ea648f3da95abd7ea4d0358fe4e5a89377e3868c"
   dependencies:
     auto-bind "^1.2.0"
     boolean "^0.1.3"
@@ -917,13 +917,13 @@ boom@4.x.x:
   dependencies:
     hoek "4.x.x"
 
-boom@5.x.x, boom@^5.1.0, boom@^5.2.0:
+boom@5.2.0, boom@5.x.x, boom@^5.1.0, boom@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
     hoek "4.x.x"
 
-boom@7.2.0, boom@^7.2.0:
+boom@7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-7.2.0.tgz#2bff24a55565767fde869ec808317eb10c48e966"
   dependencies:
