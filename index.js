@@ -39,6 +39,7 @@ const I18N = require('@ladjs/i18n');
 const StateHelper = require('@ladjs/state-helper');
 const Boom = require('boom');
 const CSRF = require('koa-csrf');
+const { oneLine } = require('common-tags');
 
 let max = process.env.RATELIMIT_MAX
   ? parseInt(process.env.RATELIMIT_MAX, 10)
@@ -203,6 +204,8 @@ class Server {
       app.use(livereload(this.config.livereload));
 
     // override koa's undocumented error handler
+    // TODO: <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
     app.context.onerror = errorHandler;
 
     // response time
@@ -286,8 +289,8 @@ class Server {
       try {
         await new CSRF({
           ...this.config.csrf,
-          invalidSessionSecretMessage: ctx.translate('INVALID_SESSION_SECRET'),
-          invalidTokenMessage: ctx.translate('INVALID_TOKEN')
+          invalidSessionSecretMessage: ctx.req.t('Invalid session secret.'),
+          invalidTokenMessage: ctx.req.t('Invalid CSRF token.')
         })(ctx, next);
       } catch (err) {
         let e = err;
@@ -316,7 +319,8 @@ class Server {
       try {
         const timeout = new Timeout({
           ms: this.config.timeoutMs,
-          message: ctx.translate('REQUEST_TIMED_OUT')
+          message: ctx.req.t(oneLine`Sorry, your request has timed out.
+          We have been alerted of this issue.  Please try again.`)
         });
         await timeout.middleware(ctx, next);
       } catch (err) {
