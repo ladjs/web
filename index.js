@@ -15,7 +15,7 @@ const conditional = require('koa-conditional-get');
 const etag = require('koa-etag');
 const compress = require('koa-compress');
 const responseTime = require('koa-response-time');
-const rateLimit = require('koa-simple-ratelimit');
+const rateLimiter = require('koa-simple-ratelimit');
 const views = require('koa-views');
 const koaLogger = require('koa-logger');
 const methodOverride = require('koa-methodoverride');
@@ -41,12 +41,22 @@ const Boom = require('boom');
 const CSRF = require('koa-csrf');
 const { oneLine } = require('common-tags');
 
-let max = process.env.RATELIMIT_MAX
-  ? parseInt(process.env.RATELIMIT_MAX, 10)
-  : 100;
+const env = process.env.NODE_ENV || 'development';
 
-if (!process.env.RATELIMIT_MAX && process.env.NODE_ENV === 'development')
-  max = Number.MAX_VALUE;
+let rateLimit = {
+  duration: process.env.RATELIMIT_DURATION
+    ? parseInt(process.env.RATELIMIT_DURATION, 10)
+    : 60000,
+  max: process.env.RATELIMIT_MAX
+    ? parseInt(process.env.RATELIMIT_MAX, 10)
+    : 100,
+  id: ctx => ctx.ip,
+  prefix: process.env.RATELIMIT_PREFIX
+    ? process.env.RATELIMIT_PREFIX
+    : `limit_${env.toLowerCase()}`
+};
+
+if (env === 'development') rateLimit = false;
 
 class Server {
   // eslint-disable-next-line complexity
@@ -71,16 +81,7 @@ class Server {
         i18n: {},
         meta: {},
         passport: false,
-        rateLimit: {
-          duration: process.env.RATELIMIT_DURATION
-            ? parseInt(process.env.RATELIMIT_DURATION, 10)
-            : 60000,
-          max,
-          id: ctx => ctx.ip,
-          prefix: process.env.RATELIMIT_PREFIX
-            ? process.env.RATELIMIT_PREFIX
-            : `limit_${process.env.NODE_ENV.toLowerCase()}`
-        },
+        rateLimit,
         // <https://github.com/koajs/cors#corsoptions>
         cors: {},
         timeoutMs: process.env.WEB_TIMEOUT_MS
@@ -215,12 +216,13 @@ class Server {
     app.use(koaLogger({ logger }));
 
     // rate limiting
-    app.use(
-      rateLimit({
-        ...this.config.rateLimit,
-        db: redisClient
-      })
-    );
+    if (this.config.rateLimit)
+      app.use(
+        rateLimiter({
+          ...this.config.rateLimit,
+          db: redisClient
+        })
+      );
 
     // conditional-get
     app.use(conditional());
@@ -229,7 +231,7 @@ class Server {
     app.use(etag());
 
     // cors
-    app.use(cors(this.config.cors));
+    if (this.config.cors) app.use(cors(this.config.cors));
 
     // TODO: add `cors-gate`
     // <https://github.com/mixmaxhq/cors-gate/issues/6>
