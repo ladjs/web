@@ -63,7 +63,9 @@ class Server {
   constructor(config) {
     this.config = Object.assign(
       {
-        cabin: {},
+        cabin: {
+          axe: { capture: false }
+        },
         protocol: process.env.WEB_PROTOCOL || 'http',
         ssl: {
           key: process.env.WEB_SSL_KEY_PATH
@@ -142,7 +144,10 @@ class Server {
     const i18n = this.config.i18n.config
       ? this.config.i18n
       : new I18N({ ...this.config.i18n, logger });
-    const cabin = new Cabin(this.config.cabin);
+    const cabin = new Cabin({
+      logger,
+      ...this.config.cabin
+    });
 
     // initialize the app
     const app = new Koa();
@@ -190,7 +195,7 @@ class Server {
     app.use(koaManifestRev(this.config.koaManifestRev));
 
     // setup localization
-    app.use(i18n.middleware);
+    if (this.config.i18n) app.use(i18n.middleware);
 
     // set template rendering engine
     app.use(
@@ -282,27 +287,28 @@ class Server {
     });
 
     // csrf (with added localization support)
-    app.use(async (ctx, next) => {
-      if (process.env.NODE_ENV === 'test') {
-        logger.debug(`Skipping CSRF`);
-        return next();
-      }
-
-      try {
-        await new CSRF({
-          ...this.config.csrf,
-          invalidSessionSecretMessage: ctx.req.t('Invalid session secret.'),
-          invalidTokenMessage: ctx.req.t('Invalid CSRF token.')
-        })(ctx, next);
-      } catch (err) {
-        let e = err;
-        if (err.name && err.name === 'ForbiddenError') {
-          e = Boom.forbidden(err.message);
-          if (err.stack) e.stack = err.stack;
+    if (this.config.csrf)
+      app.use(async (ctx, next) => {
+        if (process.env.NODE_ENV === 'test') {
+          logger.debug(`Skipping CSRF`);
+          return next();
         }
-        ctx.throw(e);
-      }
-    });
+
+        try {
+          await new CSRF({
+            ...this.config.csrf,
+            invalidSessionSecretMessage: ctx.req.t('Invalid session secret.'),
+            invalidTokenMessage: ctx.req.t('Invalid CSRF token.')
+          })(ctx, next);
+        } catch (err) {
+          let e = err;
+          if (err.name && err.name === 'ForbiddenError') {
+            e = Boom.forbidden(err.message);
+            if (err.stack) e.stack = err.stack;
+          }
+          ctx.throw(e);
+        }
+      });
 
     // passport
     if (this.config.passport) {
@@ -331,7 +337,7 @@ class Server {
     });
 
     // detect or redirect based off locale url
-    app.use(i18n.redirect);
+    if (this.config.i18n) app.use(i18n.redirect);
 
     // store the user's last ip address in the background
     app.use(storeIPAddress.middleware);
