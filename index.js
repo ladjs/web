@@ -150,9 +150,12 @@ class Server {
     const storeIPAddress = new StoreIPAddress({ logger });
     const meta = new Meta(this.config.meta);
     const stateHelper = new StateHelper(this.config.views.locals);
-    const i18n = this.config.i18n.config
-      ? this.config.i18n
-      : new I18N({ ...this.config.i18n, logger });
+    let i18n = false;
+    if (this.config.i18n) {
+      i18n = this.config.i18n.config
+        ? this.config.i18n
+        : new I18N({ ...this.config.i18n, logger });
+    }
     const cabin = new Cabin({
       logger,
       ...this.config.cabin
