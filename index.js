@@ -58,11 +58,20 @@ let rateLimit = {
 
 if (env === 'development') rateLimit = false;
 
+const message = (ctx, messages, key) =>
+  ctx.req.t ? ctx.req.t(messages[key]) : messages[key];
+
 class Server {
   // eslint-disable-next-line complexity
   constructor(config) {
     this.config = Object.assign(
       {
+        messages: {
+          timeout: oneLine`Sorry, your request has timed out. We have been
+          alerted of this issue.  Please try again.`,
+          invalidSessionSecretMessage: 'Invalid session secret.',
+          invalidTokenMessage: 'Invalid CSRF token.'
+        },
         cabin: {
           axe: { capture: false }
         },
@@ -297,8 +306,16 @@ class Server {
         try {
           await new CSRF({
             ...this.config.csrf,
-            invalidSessionSecretMessage: ctx.req.t('Invalid session secret.'),
-            invalidTokenMessage: ctx.req.t('Invalid CSRF token.')
+            invalidSessionSecretMessage: message(
+              ctx,
+              this.config.messages,
+              'invalidSessionSecretMessage'
+            ),
+            invalidTokenMessage: message(
+              ctx,
+              this.config.messages,
+              'invalidTokenMessage'
+            )
           })(ctx, next);
         } catch (err) {
           let e = err;
@@ -327,8 +344,7 @@ class Server {
       try {
         const timeout = new Timeout({
           ms: this.config.timeoutMs,
-          message: ctx.req.t(oneLine`Sorry, your request has timed out.
-          We have been alerted of this issue.  Please try again.`)
+          message: message(ctx, this.config.messages, 'timeout')
         });
         await timeout.middleware(ctx, next);
       } catch (err) {
