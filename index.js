@@ -8,6 +8,7 @@ const Koa = require('koa');
 const Cabin = require('cabin');
 const livereload = require('koa-livereload');
 const boolean = require('boolean');
+const auth = require('koa-basic-auth');
 const favicon = require('koa-favicon');
 const koaManifestRev = require('koa-manifest-rev');
 const serveStatic = require('@ladjs/koa-better-static');
@@ -92,6 +93,11 @@ class Server {
         i18n: {},
         meta: {},
         passport: false,
+        auth: false,
+        // these are hooks that can get run before/after configuration
+        // and must be functions that accept one argument `app`
+        hookBeforeSetup: false,
+        hookBeforeRoutes: false,
         rateLimit,
         // <https://github.com/koajs/cors#corsoptions>
         cors: {},
@@ -184,8 +190,19 @@ class Server {
     // later on with `server.close()`
     let server;
 
+    // override koa's undocumented error handler
+    // TODO: <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
+    app.context.onerror = errorHandler;
+
+    // TODO: we need to make `contextError` for axe/cabin
+    // (which will let us parse ctx.user on errors)
     app.on('error', logger.contextError || logger.error);
     app.on('log', logger.log);
+
+    // allow before hooks to get setup
+    if (_.isFunction(this.config.hookBeforeSetup))
+      this.config.hookBeforeSetup(app);
 
     // inherit cache variable for cache-pug-templates
     app.cache = boolean(this.config.views.locals.cache);
@@ -221,15 +238,13 @@ class Server {
     if (process.env.NODE_ENV === 'development')
       app.use(livereload(this.config.livereload));
 
-    // override koa's undocumented error handler
-    // TODO: <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
-    // eslint-disable-next-line unicorn/prefer-add-event-listener
-    app.context.onerror = errorHandler;
+    if (this.config.auth) app.use(auth(this.config.auth));
 
     // response time
     app.use(responseTime());
 
     // request logger with custom logger
+    // TODO: use pino logger if pino?
     app.use(koaLogger({ logger }));
 
     // rate limiting
@@ -360,6 +375,10 @@ class Server {
 
     // store the user's last ip address in the background
     app.use(storeIPAddress.middleware);
+
+    // allow before hooks to get setup
+    if (_.isFunction(this.config.hookBeforeRoutes))
+      this.config.hookBeforeRoutes(app);
 
     // mount the app's defined and nested routes
     if (this.config.routes) {
