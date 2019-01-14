@@ -1,156 +1,100 @@
 const http = require('http');
 const https = require('https');
-const fs = require('fs');
 const path = require('path');
-const autoBind = require('auto-bind');
-const _ = require('lodash');
-const Koa = require('koa');
-const Cabin = require('cabin');
-const livereload = require('koa-livereload');
-const boolean = require('boolean');
-const auth = require('koa-basic-auth');
-const favicon = require('koa-favicon');
-const koaManifestRev = require('koa-manifest-rev');
-const serveStatic = require('@ladjs/koa-better-static');
-const conditional = require('koa-conditional-get');
-const etag = require('koa-etag');
-const compress = require('koa-compress');
-const responseTime = require('koa-response-time');
-const rateLimiter = require('koa-simple-ratelimit');
-const views = require('koa-views');
-const koaLogger = require('koa-logger');
-const methodOverride = require('koa-methodoverride');
-const bodyParser = require('koa-bodyparser');
-const koa404Handler = require('koa-404-handler');
-const json = require('koa-json');
-const errorHandler = require('koa-better-error-handler');
-const helmet = require('koa-helmet');
-const cors = require('kcors');
-const removeTrailingSlashes = require('koa-no-trailing-slash');
-const redis = require('redis');
-const RedisStore = require('koa-redis');
-const session = require('koa-generic-session');
-const flash = require('koa-better-flash');
-const StoreIPAddress = require('@ladjs/store-ip-address');
-const isajax = require('koa-isajax');
-const ip = require('ip');
-const Meta = require('koa-meta');
-const Timeout = require('koa-better-timeout');
-const I18N = require('@ladjs/i18n');
-const StateHelper = require('@ladjs/state-helper');
+
 const Boom = require('boom');
 const CSRF = require('koa-csrf');
-const { oneLine } = require('common-tags');
+const Cabin = require('cabin');
+const I18N = require('@ladjs/i18n');
+const Koa = require('koa');
+const Meta = require('koa-meta');
+const RedisStore = require('koa-redis');
+const StateHelper = require('@ladjs/state-helper');
+const StoreIPAddress = require('@ladjs/store-ip-address');
+const Timeout = require('koa-better-timeout');
+const _ = require('lodash');
+const auth = require('koa-basic-auth');
+const autoBind = require('auto-bind');
+const bodyParser = require('koa-bodyparser');
+const boolean = require('boolean');
+const compress = require('koa-compress');
+const conditional = require('koa-conditional-get');
+const cors = require('kcors');
+const errorHandler = require('koa-better-error-handler');
+const etag = require('koa-etag');
+const favicon = require('koa-favicon');
+const flash = require('koa-better-flash');
+const helmet = require('koa-helmet');
+const ip = require('ip');
+const isajax = require('koa-isajax');
+const json = require('koa-json');
+const koa404Handler = require('koa-404-handler');
+const koaConnect = require('koa-connect');
+const koaManifestRev = require('koa-manifest-rev');
+const livereload = require('koa-livereload');
+const methodOverride = require('koa-methodoverride');
+const rateLimiter = require('koa-simple-ratelimit');
+const redis = require('redis');
+const removeTrailingSlashes = require('koa-no-trailing-slash');
+const requestId = require('express-request-id');
+const responseTime = require('response-time');
+const serveStatic = require('@ladjs/koa-better-static');
+const session = require('koa-generic-session');
+const views = require('koa-views');
+const sharedConfig = require('@ladjs/shared-config');
 
-const env = process.env.NODE_ENV || 'development';
-
-let rateLimit = {
-  duration: process.env.RATELIMIT_DURATION
-    ? parseInt(process.env.RATELIMIT_DURATION, 10)
-    : 60000,
-  max: process.env.RATELIMIT_MAX
-    ? parseInt(process.env.RATELIMIT_MAX, 10)
-    : 100,
-  id: ctx => ctx.ip,
-  prefix: process.env.RATELIMIT_PREFIX
-    ? process.env.RATELIMIT_PREFIX
-    : `limit_${env.toLowerCase()}`
-};
-
-if (env === 'development') rateLimit = false;
-
-const message = (ctx, messages, key) =>
-  ctx.req.t ? ctx.req.t(messages[key]) : messages[key];
-
-class Server {
+class Web {
   // eslint-disable-next-line complexity
   constructor(config) {
-    this.config = Object.assign(
-      {
-        messages: {
-          timeout: oneLine`Sorry, your request has timed out. We have been
-          alerted of this issue.  Please try again.`,
-          invalidSessionSecretMessage: 'Invalid session secret.',
-          invalidTokenMessage: 'Invalid CSRF token.'
-        },
-        cabin: {
-          axe: { capture: false }
-        },
-        protocol: process.env.WEB_PROTOCOL || 'http',
-        ssl: {
-          key: process.env.WEB_SSL_KEY_PATH
-            ? fs.readFileSync(process.env.WEB_SSL_KEY_PATH)
-            : null,
-          cert: process.env.WEB_SSL_CERT_PATH
-            ? fs.readFileSync(process.env.WEB_SSL_CERT_PATH)
-            : null,
-          ca: process.env.WEB_SSL_CA_PATH
-            ? fs.readFileSync(process.env.WEB_SSL_CA_PATH)
-            : null
-        },
-        routes: false,
-        logger: console,
-        i18n: {},
-        meta: {},
-        passport: false,
-        auth: false,
-        // these are hooks that can get run before/after configuration
-        // and must be functions that accept one argument `app`
-        hookBeforeSetup: false,
-        hookBeforeRoutes: false,
-        rateLimit,
-        // <https://github.com/koajs/cors#corsoptions>
-        cors: {},
-        timeoutMs: process.env.WEB_TIMEOUT_MS
-          ? parseInt(process.env.WEB_TIMEOUT_MS, 10)
-          : 3000,
-        views: {
-          root: path.resolve('./app/views'),
-          locals: {},
-          options: {
-            extension: 'pug'
-          }
-        },
-        csrf: {},
-        sessionKeys: process.env.SESSION_KEYS
-          ? process.env.SESSION_KEYS.split(',')
-          : ['lad'],
-        cookiesKey: process.env.COOKIES_KEY || 'lad.sid',
-        // <https://github.com/pillarjs/cookies#cookiesset-name--value---options-->
-        // <https://github.com/koajs/generic-session/blob/master/src/session.js#L32-L38>
-        cookies: {
-          httpOnly: true,
-          path: '/',
-          overwrite: true,
-          signed: true,
-          maxAge: 24 * 60 * 60 * 1000,
-          secure: process.env.WEB_PROTOCOL === 'https',
-          // we use SameSite cookie support as an alternative to CSRF
-          // <https://scotthelme.co.uk/csrf-is-dead/>
-          sameSite: 'lax'
-        },
-        livereload: {
-          port: process.env.LIVERELOAD_PORT
-            ? parseInt(process.env.LIVERELOAD_PORT, 10)
-            : 35729
-        },
-        favicon: {
-          path: path.resolve('./assets/img/favicon.ico'),
-          options: {}
-        },
-        buildDir: path.resolve('./build'),
-        // <https://github.com/niftylettuce/koa-better-static#options>
-        serveStatic: {},
-        koaManifestRev: {
-          manifest: path.resolve('../build/rev-manifest.json'),
-          prepend:
-            process.env.AWS_CF_DOMAIN && process.env.NODE_ENV === 'production'
-              ? `//${process.env.AWS_CF_DOMAIN}/`
-              : '/'
+    this.config = {
+      ...sharedConfig('WEB'),
+      meta: {},
+      views: {
+        root: path.resolve('./app/views'),
+        locals: {},
+        options: {
+          extension: 'pug'
         }
       },
-      config
-    );
+      csrf: {},
+      sessionKeys: process.env.SESSION_KEYS
+        ? process.env.SESSION_KEYS.split(',')
+        : ['lad'],
+      cookiesKey: process.env.COOKIES_KEY || 'lad.sid',
+      // <https://github.com/pillarjs/cookies#cookiesset-name--value---options-->
+      // <https://github.com/koajs/generic-session/blob/master/src/session.js#L32-L38>
+      cookies: {
+        httpOnly: true,
+        path: '/',
+        overwrite: true,
+        signed: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: process.env.WEB_PROTOCOL === 'https',
+        // we use SameSite cookie support as an alternative to CSRF
+        // <https://scotthelme.co.uk/csrf-is-dead/>
+        sameSite: 'lax'
+      },
+      livereload: {
+        port: process.env.LIVERELOAD_PORT
+          ? parseInt(process.env.LIVERELOAD_PORT, 10)
+          : 35729
+      },
+      favicon: {
+        path: path.resolve('./assets/img/favicon.ico'),
+        options: {}
+      },
+      buildDir: path.resolve('./build'),
+      // <https://github.com/niftylettuce/koa-better-static#options>
+      serveStatic: {},
+      koaManifestRev: {
+        manifest: path.resolve('../build/rev-manifest.json'),
+        prepend:
+          process.env.AWS_CF_DOMAIN && process.env.NODE_ENV === 'production'
+            ? `//${process.env.AWS_CF_DOMAIN}/`
+            : '/'
+      },
+      ...config
+    };
 
     const { logger } = this.config;
     const storeIPAddress = new StoreIPAddress({ logger });
@@ -191,13 +135,12 @@ class Server {
     let server;
 
     // override koa's undocumented error handler
-    // TODO: <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
+    // <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
     // eslint-disable-next-line unicorn/prefer-add-event-listener
     app.context.onerror = errorHandler;
 
-    // TODO: we need to make `contextError` for axe/cabin
-    // (which will let us parse ctx.user on errors)
-    app.on('error', logger.contextError || logger.error);
+    // listen for error and log events emitted by app
+    app.on('error', (err, ctx) => ctx.logger.error(err));
     app.on('log', logger.log);
 
     // allow before hooks to get setup
@@ -210,6 +153,15 @@ class Server {
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
 
+    // adds `X-Response-Time` header to responses
+    app.use(koaConnect(responseTime));
+
+    // adds or re-uses `X-Request-Id` header
+    app.use(koaConnect(requestId()));
+
+    // add cabin middleware
+    app.use(cabin.middleware);
+
     // compress/gzip
     app.use(compress());
 
@@ -217,14 +169,10 @@ class Server {
     app.use(favicon(this.config.favicon.path, this.config.favicon.options));
 
     // serve static assets
-    // TODO: <https://github.com/tunnckoCore/koa-better-serve/issues/13>
     app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
 
     // koa-manifest-rev
     app.use(koaManifestRev(this.config.koaManifestRev));
-
-    // setup localization
-    if (this.config.i18n) app.use(i18n.middleware);
 
     // set template rendering engine
     app.use(
@@ -234,18 +182,14 @@ class Server {
       )
     );
 
+    // setup localization
+    if (i18n) app.use(i18n.middleware);
+
     // livereload if we're in dev mode
     if (process.env.NODE_ENV === 'development')
       app.use(livereload(this.config.livereload));
 
     if (this.config.auth) app.use(auth(this.config.auth));
-
-    // response time
-    app.use(responseTime());
-
-    // request logger with custom logger
-    // TODO: use pino logger if pino?
-    app.use(koaLogger({ logger }));
 
     // rate limiting
     if (this.config.rateLimit)
@@ -264,9 +208,6 @@ class Server {
 
     // cors
     if (this.config.cors) app.use(cors(this.config.cors));
-
-    // TODO: add `cors-gate`
-    // <https://github.com/mixmaxhq/cors-gate/issues/6>
 
     // security
     app.use(helmet());
@@ -297,9 +238,6 @@ class Server {
     // pretty-printed json responses
     app.use(json());
 
-    // add cabin middleware
-    app.use(cabin.middleware);
-
     // ajax request detection (sets `ctx.state.xhr` boolean)
     app.use(isajax());
 
@@ -314,27 +252,14 @@ class Server {
     });
 
     // csrf (with added localization support)
-    if (this.config.csrf)
+    if (this.config.csrf && process.env.NODE_ENV !== 'test') {
+      const csrf = new CSRF({
+        ...this.config.csrf,
+        invalidTokenMessage: ctx => ctx.request.t('Invalid CSRF token')
+      });
       app.use(async (ctx, next) => {
-        if (process.env.NODE_ENV === 'test') {
-          logger.debug(`Skipping CSRF`);
-          return next();
-        }
-
         try {
-          await new CSRF({
-            ...this.config.csrf,
-            invalidSessionSecretMessage: message(
-              ctx,
-              this.config.messages,
-              'invalidSessionSecretMessage'
-            ),
-            invalidTokenMessage: message(
-              ctx,
-              this.config.messages,
-              'invalidTokenMessage'
-            )
-          })(ctx, next);
+          await csrf.middleware(ctx, next);
         } catch (err) {
           let e = err;
           if (err.name && err.name === 'ForbiddenError') {
@@ -344,6 +269,7 @@ class Server {
           ctx.throw(e);
         }
       });
+    }
 
     // passport
     if (this.config.passport) {
@@ -358,20 +284,13 @@ class Server {
     app.use(meta.middleware);
 
     // configure timeout
-    app.use(async (ctx, next) => {
-      try {
-        const timeout = new Timeout({
-          ms: this.config.timeoutMs,
-          message: message(ctx, this.config.messages, 'timeout')
-        });
-        await timeout.middleware(ctx, next);
-      } catch (err) {
-        ctx.throw(err);
-      }
-    });
+    if (this.config.timeout) {
+      const timeout = new Timeout(this.config.timeout);
+      app.use(timeout.middleware);
+    }
 
     // detect or redirect based off locale url
-    if (this.config.i18n) app.use(i18n.redirect);
+    if (i18n) app.use(i18n.redirect);
 
     // store the user's last ip address in the background
     app.use(storeIPAddress.middleware);
@@ -410,7 +329,7 @@ class Server {
       fn = function() {
         const { port } = this.address();
         logger.info(
-          `web server listening on ${port} (LAN: ${ip.address()}:${port})`
+          `Lad web server listening on ${port} (LAN: ${ip.address()}:${port})`
         );
       };
 
@@ -424,4 +343,4 @@ class Server {
   }
 }
 
-module.exports = Server;
+module.exports = Web;
