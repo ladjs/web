@@ -106,6 +106,7 @@ class Web {
         ? this.config.i18n
         : new I18N({ ...this.config.i18n, logger });
     }
+
     const cabin = new Cabin({
       logger,
       ...this.config.cabin
@@ -266,6 +267,7 @@ class Web {
             e = Boom.forbidden(err.message);
             if (err.stack) e.stack = err.stack;
           }
+
           ctx.throw(e);
         }
       });
