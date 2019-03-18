@@ -260,7 +260,7 @@ class Web {
       });
       app.use(async (ctx, next) => {
         try {
-          await csrf.middleware(ctx, next);
+          await csrf(ctx, next);
         } catch (err) {
           let e = err;
           if (err.name && err.name === 'ForbiddenError') {
