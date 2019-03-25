@@ -1366,19 +1366,19 @@ boolean@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolean/-/boolean-1.0.0.tgz#45764b4aac187a050995b0a33d7579b6759f0dfd"
   integrity sha512-IB1lgIywn37N9Aff8CciCblVpMUflgL42vyxPUH0IvaDdIi/QwBHKv1lq/HOkATHCfa7c4MbMYJ7Bo7hGuoI+w==
 
+boom@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/boom/-/boom-5.1.0.tgz#0308fa8e924cd6d42d9c3bf4883bdc98f0e71df8"
+  integrity sha1-Awj6jpJM1tQtnDv0iDvcmPDnHfg=
+  dependencies:
+    hoek "4.x.x"
+
 boom@7.3.0, boom@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/boom/-/boom-7.3.0.tgz#733a6d956d33b0b1999da3fe6c12996950d017b9"
   integrity sha512-Swpoyi2t5+GhOEGw8rEsKvTxFLIDiiKoUc2gsoV6Lyr43LHBIzch3k2MvYUs8RTROrIkVJ3Al0TkaOGjnb+B6A==
   dependencies:
     hoek "6.x.x"
-
-boom@^5.1.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
-  integrity sha512-Z5BTk6ZRe4tXXQlkqftmsAUANpXmuwlsF5Oov8ThoMbQRzdGTA1ngYRW160GexgOgjsFOKJz0LYhoNi+2AMBUw==
-  dependencies:
-    hoek "4.x.x"
 
 boxen@^1.2.1:
   version "1.3.0"
@@ -2340,7 +2340,7 @@ debug@^2.1.2, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@^3.0.1, debug@^3.1.0:
+debug@^3.1.0:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -5277,16 +5277,16 @@ koa-basic-auth@^4.0.0:
     basic-auth "^2.0.0"
     tsscmp "^1.0.6"
 
-koa-better-error-handler@^1.3.6:
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-1.3.6.tgz#e6f45b00b79ffe493a6e393851c5ddab7a6863b1"
-  integrity sha512-ysKXghlOOj2WOCy83EIzrk54AE1GdU2nf5Nudrhuszm/FsgmB4Wz5bU7HC+///3SH+IEuBzxrUZOxoVLvRQDbA==
+koa-better-error-handler@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-2.0.0.tgz#11572f53444af2b9ebb390c8bb573ff3df610cfc"
+  integrity sha512-kYW8OoFo+EmK1URGPrgR5BldJrPDCMl5+BvXBCaMHn0RUjoUQoRMMZ96dInMvUgHGI+SJGR+cuo7rKqsTjnEzw==
   dependencies:
-    boom "^5.1.0"
+    boom "5.1.0"
     co "^4.6.0"
-    debug "^3.0.1"
-    lodash "^4.17.4"
-    underscore.string "^3.3.4"
+    debug "^4.1.1"
+    lodash "^4.17.11"
+    underscore.string "^3.3.5"
 
 koa-better-flash@^0.0.3:
   version "0.0.3"
@@ -9861,7 +9861,7 @@ underscore.deep@~0.5.1:
   resolved "https://registry.yarnpkg.com/underscore.deep/-/underscore.deep-0.5.1.tgz#072671f48d68735c34223fcfef63e69e5276cc2b"
   integrity sha1-ByZx9I1oc1w0Ij/P72PmnlJ2zCs=
 
-underscore.string@^3.3.4, underscore.string@^3.3.5:
+underscore.string@^3.3.5:
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-3.3.5.tgz#fc2ad255b8bd309e239cbc5816fd23a9b7ea4023"
   integrity sha512-g+dpmgn+XBneLmXXo+sGlW5xQEt4ErkS3mgeN2GFbremYeMBSJKr9Wf2KJplQVaiPY/f7FN6atosWYNm9ovrYg==
