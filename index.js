@@ -37,6 +37,7 @@ const rateLimiter = require('koa-simple-ratelimit');
 const redis = require('redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
+const requestReceived = require('request-received');
 const responseTime = require('response-time');
 const serveStatic = require('@ladjs/koa-better-static');
 const session = require('koa-generic-session');
@@ -154,8 +155,12 @@ class Web {
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
 
+    // adds request received hrtime and date symbols to request object
+    // (which is used by Cabin internally to add `request.timestamp` to logs
+    app.use(requestReceived);
+
     // adds `X-Response-Time` header to responses
-    app.use(koaConnect(responseTime));
+    app.use(koaConnect(responseTime()));
 
     // adds or re-uses `X-Request-Id` header
     app.use(koaConnect(requestId()));
