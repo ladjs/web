@@ -254,7 +254,7 @@ class Web {
     app.keys = this.config.sessionKeys;
     app.use(
       session({
-        store: redisStore,
+        store: redisStore({ client }),
         key: this.config.cookiesKey,
         cookie: this.config.cookies
       })
