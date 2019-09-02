@@ -8,7 +8,6 @@ const Cabin = require('cabin');
 const I18N = require('@ladjs/i18n');
 const Koa = require('koa');
 const Meta = require('koa-meta');
-const RedisStore = require('koa-redis');
 const StateHelper = require('@ladjs/state-helper');
 const StoreIPAddress = require('@ladjs/store-ip-address');
 const Timeout = require('koa-better-timeout');
@@ -34,15 +33,15 @@ const koaManifestRev = require('koa-manifest-rev');
 const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
 const rateLimiter = require('koa-simple-ratelimit');
-const redis = require('redis');
+const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
 const requestReceived = require('request-received');
 const responseTime = require('response-time');
 const serveStatic = require('@ladjs/koa-better-static');
 const session = require('koa-generic-session');
-const views = require('koa-views');
 const sharedConfig = require('@ladjs/shared-config');
+const views = require('koa-views');
 
 class Web {
   // eslint-disable-next-line complexity
@@ -116,21 +115,6 @@ class Web {
     // initialize the app
     const app = new Koa();
 
-    // connect to redis
-    const redisClient = redis.createClient(
-      process.env.REDIS_URL || 'redis://localhost:6379'
-    );
-    // handle connect and error events
-    redisClient.on('connect', () =>
-      app.emit('log', 'debug', 'redis connected')
-    );
-    redisClient.on('error', err => app.emit('error', err));
-
-    // initialize redis store
-    const redisStore = new RedisStore({
-      client: redisClient
-    });
-
     // store the server initialization
     // so that we can gracefully exit
     // later on with `server.close()`
@@ -144,6 +128,51 @@ class Web {
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => ctx.logger.error(err));
     app.on('log', logger.log);
+
+    // check if we've binded _any_ events otherwise
+    // bind all normal events and assume we use the default
+    // <https://github.com/luin/ioredis#events>
+    const client = this.config.redisClient;
+    // go through each event listener type for ioredis and check
+    // if we've binded any listeners already
+    // <https://nodejs.org/api/events.html#events_emitter_listeners_eventname>
+    const listeners = [
+      'connect',
+      'ready',
+      'error',
+      'close',
+      'reconnecting',
+      'end',
+      '+node',
+      '-node',
+      'node error'
+    ];
+    let bindListeners = true;
+    for (let i = 0; i < listeners.length; i++) {
+      if (client.listeners(listeners[i]).length > 0) {
+        bindListeners = false;
+        break;
+      }
+    }
+
+    if (bindListeners) {
+      client.on('connect', () =>
+        app.emit('log', 'debug', 'redis connection established')
+      );
+      client.on('ready', () =>
+        app.emit('log', 'debug', 'redis connection ready')
+      );
+      client.on('error', err => app.emit('error', err));
+      client.on('close', () =>
+        app.emit('log', 'debug', 'redis connection closed')
+      );
+      client.on('reconnecting', () =>
+        app.emit('log', 'debug', 'redis reconnecting')
+      );
+      client.on('end', () =>
+        app.emit('log', 'debug', 'redis connection ended')
+      );
+    }
 
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeSetup))
@@ -202,7 +231,7 @@ class Web {
       app.use(
         rateLimiter({
           ...this.config.rateLimit,
-          db: redisClient
+          db: client
         })
       );
 
