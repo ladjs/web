@@ -1243,10 +1243,10 @@ bytes@^2.5.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
   integrity sha1-TJQj6i0lLCcMQbK97+/5u2tiwGo=
 
-cabin@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.0.tgz#9a76eda4af8eb749bd3cdfcb9a8b084814499336"
-  integrity sha512-LhIaA4xVh2ARNaj7IdZP1N4Aa7V01VAaSsmDhkjyIvJRbShl5O3OenYMntsNmkCg4lAJ8nqM5UQc9IGV2FDOwQ==
+cabin@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.1.tgz#0bd2966f485be9112dd25ffcd7e55f63c9d78573"
+  integrity sha512-xjmBPTeE3EdIrdKI++gHHI38yJse5sXUT3QnYCsmtC48zVUSn9aBDO7Sa/9Ga0B++Wnrpn6rWzquOa5gYYB1Pw==
   dependencies:
     ansi-colors "^4.1.1"
     axe "^4.0.1"
@@ -1256,7 +1256,7 @@ cabin@^5.0.0:
     ms "^2.1.2"
     on-finished "^2.3.0"
     parse-err "^0.0.10"
-    parse-request "^2.0.1"
+    parse-request "^2.0.2"
 
 cache-base@^1.0.1:
   version "1.0.1"
@@ -6329,10 +6329,10 @@ parse-ms@^2.1.0:
   resolved "https://registry.yarnpkg.com/parse-ms/-/parse-ms-2.1.0.tgz#348565a753d4391fa524029956b172cb7753097d"
   integrity sha512-kHt7kzLoS9VBZfUsiKjv43mr91ea+U05EyKkEtqp7vNbHxmaVuEqN7XxeEVnGrMtYOAxGrDElSi96K7EgO1zCA==
 
-parse-request@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/parse-request/-/parse-request-2.0.1.tgz#1fbf5b7b188eda6f1c88c3d5dea413ccca84896d"
-  integrity sha512-qc5m9aBNSyDy8n6+sxET9rtFI83RlUWMmf1h/BCLxXeLkzQdau6RE8kY3vb07QRDln/WsxVShXR3iRE19a4Y5Q==
+parse-request@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/parse-request/-/parse-request-2.0.2.tgz#fd74fcbe589fa11171e7606ad5cd627c9cec4134"
+  integrity sha512-oaDMV41QW/CQV72B0ztVOAri5xBd4Lc/ppttB/fqiYc8dK1HOXuB3joGj9XgvAry7M0IxL1LZYOvVlUB1KyxYg==
   dependencies:
     browser-process-hrtime "^1.0.0"
     bson-objectid "^1.3.0"
@@ -6348,7 +6348,7 @@ parse-request@^2.0.1:
     ms "^2.1.2"
     no-case "^2.3.2"
     rfdc "^1.1.4"
-    sensitive-fields "^0.0.5"
+    sensitive-fields "^0.0.6"
     url-parse "^1.4.7"
 
 parseurl@^1.3.2, parseurl@~1.3.1:
@@ -8115,10 +8115,10 @@ semver@^6.0.0, semver@^6.1.1, semver@^6.1.2, semver@^6.2.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-sensitive-fields@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/sensitive-fields/-/sensitive-fields-0.0.5.tgz#9ac4c2b546f986064e0b2218fabfd615afaf8f4b"
-  integrity sha512-CT1EJZnA+eXUZIvPIaX20WN21BqkGngLIj8cxtpO9gYWR0Revo0sDrzjdb5Tepm6hpmpNS8O8DVJQkgdql3nag==
+sensitive-fields@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/sensitive-fields/-/sensitive-fields-0.0.6.tgz#c47ef88450aa1c3648ae60973233e7348df49973"
+  integrity sha512-LfBDH5RXQulat1eL1CPYwwElXOeAgJc5qE6MTPRriKrRp7WYxkxZ5gRIUS+Y8Ue0L2pusrfGnsajW+7YlecKyw==
 
 serialize-error@^2.1.0:
   version "2.1.0"
