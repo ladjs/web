@@ -4727,10 +4727,10 @@ koa-basic-auth@^4.0.0:
     basic-auth "^2.0.0"
     tsscmp "^1.0.6"
 
-koa-better-error-handler@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-3.0.0.tgz#8e16595adc62e07b34b2064bfd5025417b1f48a7"
-  integrity sha512-YHk4eom0VGpbX/sXiNHu2JDfyDI+DRYZd7xE67Idbzou0rtYwBJ09Ld1yBPooHanqsyVMCJhLBIReuAR9fDInw==
+koa-better-error-handler@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-3.0.1.tgz#72e093efb677bb99f9bba3837fcee93949b97744"
+  integrity sha512-/Llt9Hw2H9DZhHuiNRDmI4SiKHg6ODuDJWcPXyfFuveQFM2HJDTtVdAXB1Rg6oKB/bYTOeIZ16F87PnYCuX2tw==
   dependencies:
     boom "5.1.0"
     co "^4.6.0"
