@@ -2,7 +2,7 @@ const http = require('http');
 const https = require('https');
 const path = require('path');
 
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const CSRF = require('koa-csrf');
 const Cabin = require('cabin');
 const I18N = require('@ladjs/i18n');
