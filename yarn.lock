@@ -2143,6 +2143,13 @@ decamelize@^1.0.0, decamelize@^1.1.0, decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
+decamelize@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-2.0.0.tgz#656d7bbc8094c4c788ea53c5840908c9c7d063c7"
+  integrity sha512-Ikpp5scV3MSYxY39ymh45ZLEecsTdv/Xj2CaQfI8RLMuwi7XvjX9H/fhraiSuU+C5w5NTDu4ZU72xNiZnurBPg==
+  dependencies:
+    xregexp "4.0.0"
+
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
@@ -3827,10 +3834,12 @@ humanize-number@0.0.2:
   resolved "https://registry.yarnpkg.com/humanize-number/-/humanize-number-0.0.2.tgz#11c0af6a471643633588588048f1799541489c18"
   integrity sha1-EcCvakcWQ2M1iFiASPF5lUFInBg=
 
-humanize@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/humanize/-/humanize-0.0.9.tgz#1994ffaecdfe9c441ed2bdac7452b7bb4c9e41a4"
-  integrity sha1-GZT/rs3+nEQe0r2sdFK3u0yeQaQ=
+humanize-string@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/humanize-string/-/humanize-string-2.1.0.tgz#a7d7062e5e514e04f072607ded0df853be8a1f2f"
+  integrity sha512-sQ+hqmxyXW8Cj7iqxcQxD7oSy3+AXnIZXdUF9lQMkzaG8dtbKAB8U7lCtViMnwQ+MpdCKsO2Kiij3G6UUXq/Xg==
+  dependencies:
+    decamelize "^2.0.0"
 
 husky@^3.0.5:
   version "3.0.5"
@@ -4733,17 +4742,17 @@ koa-basic-auth@^4.0.0:
     basic-auth "^2.0.0"
     tsscmp "^1.0.6"
 
-koa-better-error-handler@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-3.0.2.tgz#e104c89587849235ae61df99576f9e1f94705913"
-  integrity sha512-xGFDn0ayfOHDMMgZ4Wv2LG27vxgdgt9zua/zvYHMH3EejKJCbdJKu1nfrltKlF7p8JGVutjP4UfA3YWejjyYBw==
+koa-better-error-handler@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/koa-better-error-handler/-/koa-better-error-handler-3.0.3.tgz#e903226f7dc5483a83718ad23ae773491690c1a7"
+  integrity sha512-0WTHRZbz1CB1c9d1GxfZjP5FYuTomd7czC9+JXFlR4Cp0uoLM6bk2ho+FXLXfCwxCqd9dHktCXfp2FdO9MWYTA==
   dependencies:
     "@hapi/boom" "^7.4.3"
     camelcase "^5.3.1"
     capitalize "^2.0.0"
     co "^4.6.0"
     debug "^4.1.1"
-    humanize "^0.0.9"
+    humanize-string "^2.1.0"
     lodash "^4.17.15"
     statuses "^1.5.0"
     toidentifier "^1.0.0"
@@ -9598,6 +9607,11 @@ xo@^0.24.0:
     slash "^2.0.0"
     update-notifier "^2.3.0"
     xo-init "^0.7.0"
+
+xregexp@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-4.0.0.tgz#e698189de49dd2a18cc5687b05e17c8e43943020"
+  integrity sha512-PHyM+sQouu7xspQQwELlGwwd05mXUFqwFYfqPO0cC7x4fxyHnnuetmQr6CjJiafIDoH4MogHb9dOoJzR/Y4rFg==
 
 xregexp@^2.0.0:
   version "2.0.0"
