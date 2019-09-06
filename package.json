@@ -58,7 +58,7 @@
     "koa-no-trailing-slash": "^2.1.0",
     "koa-redis": "^4.0.0",
     "koa-simple-ratelimit": "^3.1.0",
-    "koa-views": "^6.2.0",
+    "koa-views": "^6.2.1",
     "lodash": "^4.17.15",
     "request-received": "^0.0.2",
     "response-time": "^2.3.2",
