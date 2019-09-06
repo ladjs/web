@@ -443,10 +443,10 @@
     path-to-regexp "^1.1.1"
     urijs "^1.19.0"
 
-"@ladjs/i18n@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-1.2.0.tgz#9794c70b71cf517c7c4f905986b00f0a546b1228"
-  integrity sha512-MVStDrtBiStRlfs2hiwGy/Drt9IOEcjpT6cFvxI34F/z8fS0HdYJtiV41oEpgX1kQvJDKXfVCeZhMXpO8O4vBQ==
+"@ladjs/i18n@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-1.2.1.tgz#74478f3495e2f6b1684e58ff043c040954c6ff35"
+  integrity sha512-rlo8e+2UIylCo/KiZuxd/DJsyGZ1XMFFJaxxVXMj6BO2qyfjB91pjCpIQxUmpSWddWQlPKxsm85avr1o2RG9Uw==
   dependencies:
     "@hapi/boom" "^7.4.3"
     auto-bind "^2.1.0"
@@ -468,10 +468,10 @@
     debug "*"
     resolve-path "^1.4.0"
 
-"@ladjs/shared-config@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-0.0.3.tgz#a33d0a188e31df8b4b0549c220d12526ef318e5f"
-  integrity sha512-fXoCqdcmD2l6Chr548uVOjNhMExSMoRHcwev0cQSyduq6sb5Y0PeO+s/if4cWGkDynLqG/j0K8zWuOx8oMmZ+w==
+"@ladjs/shared-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-0.0.4.tgz#5b202e248d5f076471c247f3376821eeef18ba3a"
+  integrity sha512-uSJkPu6jE/fafvFP9J2mCkYacqNrTI8bR9az35wqQSY7/2GMWRRw52zVCYRTzwc5mH3VvV5l0uW+jf9VnSB3eA==
   dependencies:
     ioredis "^4.14.0"
 
@@ -482,13 +482,14 @@
   dependencies:
     lodash "^4.17.4"
 
-"@ladjs/store-ip-address@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@ladjs/store-ip-address/-/store-ip-address-0.0.5.tgz#cdc37444485611b044b2f38155a24def2e6514d9"
-  integrity sha512-1fPcB36hhh0ysdgj2qUusnieWGtwu5mANwiM02TTvqxhI78afWvvhTxaGsJGlXlQWMfG9n4uE8KkkkhV9XmQnQ==
+"@ladjs/store-ip-address@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ladjs/store-ip-address/-/store-ip-address-0.0.6.tgz#1cf863b00e076a797117dd33b848141afd52d300"
+  integrity sha512-MAE6aOhTIdqAsUldLQhtGcBQaKJMEhRLY9e2H7U6j12OjrZ1WVcD8LqGpTszWHGWU/rzS/mi2vHfuiDPoVSeFg==
   dependencies:
-    auto-bind "^1.1.0"
-    debug "^3.1.0"
+    auto-bind "^2.1.0"
+    debug "^4.1.1"
+    validator "^11.1.0"
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
@@ -945,11 +946,6 @@ author-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
   integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
-
-auto-bind@^1.1.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-1.2.1.tgz#807f7910b0210db9eefe133f3492c28e89698b96"
-  integrity sha512-/W9yj1yKmBLwpexwAujeD9YHwYmRuWFGV8HWE7smQab797VeHa4/cnE2NFeDhA+E+5e/OGBI8763EhLjfZ/MXA==
 
 auto-bind@^2.0.0, auto-bind@^2.1.0:
   version "2.1.0"
@@ -9306,6 +9302,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+validator@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-11.1.0.tgz#ac18cac42e0aa5902b603d7a5d9b7827e2346ac4"
+  integrity sha512-qiQ5ktdO7CD6C/5/mYV4jku/7qnqzjrxb3C/Q5wR3vGGinHTgJZN/TdFT3ZX4vXhX2R1PXx42fB1cn5W+uJ4lg==
 
 vary@^1.1.2:
   version "1.1.2"

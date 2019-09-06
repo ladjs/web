@@ -97,7 +97,10 @@ class Web {
     };
 
     const { logger } = this.config;
-    const storeIPAddress = new StoreIPAddress({ logger });
+    const storeIPAddress = new StoreIPAddress({
+      logger,
+      ...this.config.storeIPAddress
+    });
     const meta = new Meta(this.config.meta, logger);
     const stateHelper = new StateHelper(this.config.views.locals);
     let i18n = false;
