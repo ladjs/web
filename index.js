@@ -1,6 +1,7 @@
 const http = require('http');
-const https = require('https');
+const http2 = require('http2');
 const path = require('path');
+const util = require('util');
 
 const Boom = require('@hapi/boom');
 const CSRF = require('koa-csrf');
@@ -25,7 +26,6 @@ const etag = require('koa-etag');
 const favicon = require('koa-favicon');
 const flash = require('koa-better-flash');
 const helmet = require('koa-helmet');
-const ip = require('ip');
 const isajax = require('koa-isajax');
 const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
@@ -310,38 +310,25 @@ class Web {
 
     // start server on either http or https
     if (this.config.protocol === 'https')
-      server = https.createServer(this.config.ssl, app.callback());
+      server = http2.createSecureServer(this.config.ssl, app.callback());
     else server = http.createServer(app.callback());
 
-    // expose app and server
+    // expose app, server, client
     this.app = app;
     this.server = server;
+    this.client = client;
 
     autoBind(this);
   }
 
-  listen(port, fn) {
-    if (_.isFunction(port)) {
-      fn = port;
-      port = null;
-    }
-
-    const { logger } = this.config;
-    if (!_.isFunction(fn))
-      fn = function() {
-        const { port } = this.address();
-        logger.info(
-          `Lad web server listening on ${port} (LAN: ${ip.address()}:${port})`
-        );
-      };
-
-    this.server = this.server.listen(port, fn);
-    return this.server;
+  async listen(port) {
+    const { server } = this;
+    this.server = await util.promisify(server.listen).bind(server)(port);
   }
 
-  close(fn) {
-    this.server.close(fn);
-    return this;
+  async close() {
+    const { server } = this;
+    this.server = await util.promisify(server.close).bind(server);
   }
 }
 

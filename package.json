@@ -24,15 +24,14 @@
     "@koa/router": "^8.0.1",
     "@ladjs/i18n": "^1.2.1",
     "@ladjs/koa-better-static": "^2.0.0",
-    "@ladjs/redis": "^1.0.2",
-    "@ladjs/shared-config": "^0.0.7",
+    "@ladjs/redis": "^1.0.3",
+    "@ladjs/shared-config": "^0.0.8",
     "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.6",
     "auto-bind": "^2.1.0",
     "boolean": "^1.0.0",
-    "cabin": "^5.0.1",
+    "cabin": "^5.0.3",
     "express-request-id": "^1.4.1",
-    "ip": "^1.1.5",
     "kcors": "^2.2.2",
     "koa": "^2.8.1",
     "koa-404-handler": "^0.0.2",
@@ -62,8 +61,7 @@
     "koa-views": "^6.2.1",
     "lodash": "^4.17.15",
     "request-received": "^0.0.2",
-    "response-time": "^2.3.2",
-    "spdy": "^4.0.1"
+    "response-time": "^2.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
