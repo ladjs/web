@@ -468,12 +468,19 @@
     debug "*"
     resolve-path "^1.4.0"
 
-"@ladjs/shared-config@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-0.0.4.tgz#5b202e248d5f076471c247f3376821eeef18ba3a"
-  integrity sha512-uSJkPu6jE/fafvFP9J2mCkYacqNrTI8bR9az35wqQSY7/2GMWRRw52zVCYRTzwc5mH3VvV5l0uW+jf9VnSB3eA==
+"@ladjs/redis@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ladjs/redis/-/redis-1.0.2.tgz#04dcfcd96606375927e0a07f3b088e33da27d1bc"
+  integrity sha512-B7SYfjj0GRfQ8R7I+dvGY0Xk9NHoxEgoxC83vQUFHFWsWxIOh4R2bBKxopba+/7I+NX7GQxZVMYmAlrn7ajJNg==
   dependencies:
     ioredis "^4.14.0"
+
+"@ladjs/shared-config@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-0.0.7.tgz#85cf61a38aebdbd57a8487edddc899e27baae1fc"
+  integrity sha512-FI2jEwLLx+ZhZ527R7/+UhxaICoC0a3faK9/ydlaBsj6UXq+0J9DvQwPzfUBsgXKc4LXtU/UYmIDW07pzRVXqg==
+  dependencies:
+    boolean "^1.0.0"
 
 "@ladjs/state-helper@^0.0.2":
   version "0.0.2"
