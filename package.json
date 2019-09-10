@@ -28,7 +28,6 @@
     "@ladjs/shared-config": "^0.0.8",
     "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.6",
-    "auto-bind": "^2.1.0",
     "boolean": "^1.0.0",
     "cabin": "^5.0.3",
     "express-request-id": "^1.4.1",

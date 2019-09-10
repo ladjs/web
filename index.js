@@ -15,7 +15,6 @@ const StoreIPAddress = require('@ladjs/store-ip-address');
 const Timeout = require('koa-better-timeout');
 const _ = require('lodash');
 const auth = require('koa-basic-auth');
-const autoBind = require('auto-bind');
 const bodyParser = require('koa-bodyparser');
 const boolean = require('boolean');
 const compress = require('koa-compress');
@@ -318,17 +317,17 @@ class Web {
     this.server = server;
     this.client = client;
 
-    autoBind(this);
+    // bind listen/close to this
+    this.listen = this.listen.bind(this);
+    this.close = this.close.bind(this);
   }
 
   async listen(port) {
-    const { server } = this;
-    this.server = await util.promisify(server.listen).bind(server)(port);
+    await util.promisify(this.server.listen).bind(this.server)(port);
   }
 
   async close() {
-    const { server } = this;
-    this.server = await util.promisify(server.close).bind(server);
+    await util.promisify(this.server.close).bind(this.server);
   }
 }
 
