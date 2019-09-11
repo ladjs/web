@@ -52,7 +52,7 @@
     "koa-livereload": "^0.2.0",
     "koa-logger": "https://github.com/niftylettuce/logger",
     "koa-manifest-rev": "^0.3.0",
-    "koa-meta": "^0.2.0",
+    "koa-meta": "^0.2.1",
     "koa-methodoverride": "^2.0.0",
     "koa-no-trailing-slash": "^2.1.0",
     "koa-redis": "^4.0.0",
