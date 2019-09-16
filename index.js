@@ -29,7 +29,6 @@ const isajax = require('koa-isajax');
 const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
 const koaConnect = require('koa-connect');
-const koaManifestRev = require('koa-manifest-rev');
 const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
 const rateLimiter = require('koa-simple-ratelimit');
@@ -86,13 +85,6 @@ class Web {
       buildDir: path.resolve('./build'),
       // <https://github.com/niftylettuce/koa-better-static#options>
       serveStatic: {},
-      koaManifestRev: {
-        manifest: path.resolve('../build/rev-manifest.json'),
-        prepend:
-          process.env.AWS_CF_DOMAIN && process.env.NODE_ENV === 'production'
-            ? `//${process.env.AWS_CF_DOMAIN}/`
-            : '/'
-      },
       ...config
     };
 
@@ -170,9 +162,6 @@ class Web {
 
     // serve static assets
     app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
-
-    // koa-manifest-rev
-    app.use(koaManifestRev(this.config.koaManifestRev));
 
     // set template rendering engine
     app.use(

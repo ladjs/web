@@ -4854,11 +4854,6 @@ koa-livereload@^0.2.0:
     humanize-number "0.0.2"
     passthrough-counter "^1.0.0"
 
-koa-manifest-rev@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/koa-manifest-rev/-/koa-manifest-rev-0.3.0.tgz#e043e26a2885c7419b2c8abbe49ed3657d03f48a"
-  integrity sha512-2yGkmYNBq7lJZy6Gb1pxg0ZLh41clqrEUK6oDWgidQT2G9w+y3iHmcgEx2Ia83XTMoM5Oaqz3M77ds/dm9O+wA==
-
 koa-meta@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/koa-meta/-/koa-meta-0.2.1.tgz#ffd9b8cb0f9bb8f044d3eb7946f746ca2e4c0f88"
