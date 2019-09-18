@@ -31,7 +31,6 @@ const koa404Handler = require('koa-404-handler');
 const koaConnect = require('koa-connect');
 const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
-const rateLimiter = require('koa-simple-ratelimit');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
@@ -41,6 +40,7 @@ const serveStatic = require('@ladjs/koa-better-static');
 const session = require('koa-generic-session');
 const sharedConfig = require('@ladjs/shared-config');
 const views = require('koa-views');
+const { ratelimit } = require('koa-simple-ratelimit');
 
 class Web {
   // eslint-disable-next-line complexity
@@ -183,7 +183,7 @@ class Web {
     // rate limiting
     if (this.config.rateLimit)
       app.use(
-        rateLimiter({
+        ratelimit({
           ...this.config.rateLimit,
           db: client
         })
