@@ -124,7 +124,6 @@ class Web {
 
     // override koa's undocumented error handler
     // <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
-    // eslint-disable-next-line unicorn/prefer-add-event-listener
     app.context.onerror = errorHandler;
 
     // listen for error and log events emitted by app
