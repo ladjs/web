@@ -450,10 +450,10 @@
     path-to-regexp "^1.1.1"
     urijs "^1.19.0"
 
-"@ladjs/i18n@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-1.2.2.tgz#0c59f791a00e7f9f8395c87382ea04aa307a9c4e"
-  integrity sha512-2teRRSM1QSm8A9s0To/thDqmLjuwJvxn6pKczqGxSXylgRsqa/qhDdM27+cEPxYJTP4lNFMxqf35tPaL7dKEUQ==
+"@ladjs/i18n@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-2.0.0.tgz#0235d989a8600bb9b230264261a99dfce4b0aae3"
+  integrity sha512-2h9bVJ818dcCfuV8kUEAA4B5jDyDsPilhGkBKgR1W1vt+QZFueIKBolJ/FJKr5ExHySmFKF5sOTC6f3S0+3KHA==
   dependencies:
     "@hapi/boom" "^8.0.1"
     boolean "1.0.0"
