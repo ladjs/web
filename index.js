@@ -16,7 +16,6 @@ const Timeout = require('koa-better-timeout');
 const _ = require('lodash');
 const auth = require('koa-basic-auth');
 const bodyParser = require('koa-bodyparser');
-const boolean = require('boolean');
 const compress = require('koa-compress');
 const conditional = require('koa-conditional-get');
 const cors = require('kcors');
@@ -40,6 +39,7 @@ const serveStatic = require('@ladjs/koa-better-static');
 const session = require('koa-generic-session');
 const sharedConfig = require('@ladjs/shared-config');
 const views = require('koa-views');
+const { boolean } = require('boolean');
 const { ratelimit } = require('koa-simple-ratelimit');
 
 class Web {
