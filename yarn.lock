@@ -488,12 +488,13 @@
   dependencies:
     ioredis "^4.14.0"
 
-"@ladjs/shared-config@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-0.0.10.tgz#8ddb528bf93918ad24258a03a9457346902e34af"
-  integrity sha512-2ZAHuPfOyIeRkc1s1u+AYxs56mPjLtEpSK3ELPn1tA0vst9Fw0l+ggOWvepLdlPF1Wh9orjImYSPU3w/oM0Mfw==
+"@ladjs/shared-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-1.0.0.tgz#59bd80f13d85efee68cebb624b6f6f974f551f12"
+  integrity sha512-GWvBRZHmBPp7r6AW2N4Yk9zTi4rc2Rbv993Y9aLXwWxRl3H8GYNRCnmsxTYDhfeD2GSzByoeVgUDanMMy/RgvA==
   dependencies:
-    boolean "^1.0.0"
+    boolean "^3.0.0"
+    is-string-and-not-blank "^0.0.2"
 
 "@ladjs/state-helper@^0.0.2":
   version "0.0.2"
@@ -1152,11 +1153,6 @@ boolean@3.0.0, boolean@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/boolean/-/boolean-3.0.0.tgz#fab78d5907dbae6216ab46d32733bb7b76b99e76"
   integrity sha512-OElxJ1lUSinuoUnkpOgLmxp0DC4ytEhODEL6QJU0NpxE/mI4rUSh8h1P1Wkvfi3xQEBcxXR2gBIPNYNuaFcAbQ==
-
-boolean@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/boolean/-/boolean-1.0.0.tgz#45764b4aac187a050995b0a33d7579b6759f0dfd"
-  integrity sha512-IB1lgIywn37N9Aff8CciCblVpMUflgL42vyxPUH0IvaDdIi/QwBHKv1lq/HOkATHCfa7c4MbMYJ7Bo7hGuoI+w==
 
 bowser@^2.7.0:
   version "2.7.0"
@@ -4224,6 +4220,18 @@ is-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-2.0.0.tgz#bde9c32680d6fae04129d6ac9d921ce7815f78e3"
   integrity sha512-XCoy+WlUr7d1+Z8GgSuXmpuUFC9fOhRXglJMx+dwLKTkL44Cjd4W1Z5P+BQZpr+cR93aGP4S/s7Ftw6Nd/kiEw==
+
+is-string-and-not-blank@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/is-string-and-not-blank/-/is-string-and-not-blank-0.0.2.tgz#cd19eded2ca4a514f79ca528915f1fb28e5dd38a"
+  integrity sha512-FyPGAbNVyZpTeDCTXnzuwbu9/WpNXbCfbHXLpCRpN4GANhS00eEIP5Ef+k5HYSNIzIhdN9zRDoBj6unscECvtQ==
+  dependencies:
+    is-string-blank "^1.0.1"
+
+is-string-blank@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-string-blank/-/is-string-blank-1.0.1.tgz#866dca066d41d2894ebdfd2d8fe93e586e583a03"
+  integrity sha512-9H+ZBCVs3L9OYqv8nuUAzpcT9OTgMD1yAWrG7ihlnibdkbtB850heAmYWxHuXc4CHy4lKeK69tN+ny1K7gBIrw==
 
 is-symbol@^1.0.2:
   version "1.0.3"
