@@ -444,10 +444,10 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.5.0.tgz#2f9ce301c8898e1c3248b0a8564696b24d1a9a5a"
   integrity sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
 
-"@koa/router@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@koa/router/-/router-8.0.2.tgz#46a48d58cb0d76dc7a3735f14d1e66bbe2116575"
-  integrity sha512-7Wa8yXBmz9HjmZOr+xfMVuxFPNObdkiQFBiwF9SQ8zFqHykwBHcJA/mLqqxU2NKoeXRPBKUOPeOjwgR+gyadcA==
+"@koa/router@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@koa/router/-/router-8.0.3.tgz#657a4b91f4085523d36c5ea1fdd32b5e33b215f7"
+  integrity sha512-XQsWpkZR3TKeEWXgaSJCH2TBoaKWJnGyqA+xrXvvmvpvGzOWDgrZGNsJzGLI8qaGFpIbvKUcIuj4ajR6+8nCOQ==
   dependencies:
     debug "^3.1.0"
     http-errors "^1.3.1"
@@ -1234,10 +1234,10 @@ bytes@^2.5.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
   integrity sha1-TJQj6i0lLCcMQbK97+/5u2tiwGo=
 
-cabin@^5.0.10:
-  version "5.0.10"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.10.tgz#df0e625163c2fdebf900c62aab582b9785c4db4b"
-  integrity sha512-xDQFSYLba+spRqeo2x3anZ0QDjiDfuyi+BaKNiDj9KhHlwiIg5HFj7shA6giJf8Utn/CuHHWo67x57+ZOwJ3AA==
+cabin@^5.0.11:
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.11.tgz#b02f5fa9f5551597b3938efefc75b9b1c5c3db9a"
+  integrity sha512-Yn4fVHFlLsjmHwXuadLnXcIDhu1faD4JgUnWgjLKHbKcd+jI86mFTjuFUHarS/+0lhm5OtNBFmroPAqz1k3JGw==
   dependencies:
     ansi-colors "^4.1.1"
     axe "^4.0.5"
