@@ -444,17 +444,17 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.5.0.tgz#2f9ce301c8898e1c3248b0a8564696b24d1a9a5a"
   integrity sha512-7XYT10CZfPsH7j9F1Jmg1+d0ezOux2oM2GfArAzLwWe4mE2Dr3hVjsAL6+TFY49RRJlCdJDMw3nJsLFroTc8Kw==
 
-"@koa/router@^8.0.3":
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/@koa/router/-/router-8.0.3.tgz#657a4b91f4085523d36c5ea1fdd32b5e33b215f7"
-  integrity sha512-XQsWpkZR3TKeEWXgaSJCH2TBoaKWJnGyqA+xrXvvmvpvGzOWDgrZGNsJzGLI8qaGFpIbvKUcIuj4ajR6+8nCOQ==
+"@koa/router@^8.0.5":
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@koa/router/-/router-8.0.5.tgz#c0ad5b2ca006c3a5abf70a2a9e68b2a820ca61b3"
+  integrity sha512-YEdMK4sHXbYstsou7lOnlrKX78e/tPjBwqCkGGGiv195Bwh3zZO5LlJzx6c5wC70+GTxvFXaoLHsgAcf+Jr44A==
   dependencies:
-    debug "^3.1.0"
-    http-errors "^1.3.1"
-    koa-compose "^3.0.0"
-    methods "^1.0.1"
-    path-to-regexp "^1.1.1"
-    urijs "^1.19.0"
+    debug "^4.1.1"
+    http-errors "^1.7.3"
+    koa-compose "^4.1.0"
+    methods "^1.1.2"
+    path-to-regexp "1.x"
+    urijs "^1.19.2"
 
 "@ladjs/i18n@^3.0.1":
   version "3.0.1"
@@ -488,10 +488,10 @@
   dependencies:
     ioredis "^4.14.0"
 
-"@ladjs/shared-config@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-1.0.0.tgz#59bd80f13d85efee68cebb624b6f6f974f551f12"
-  integrity sha512-GWvBRZHmBPp7r6AW2N4Yk9zTi4rc2Rbv993Y9aLXwWxRl3H8GYNRCnmsxTYDhfeD2GSzByoeVgUDanMMy/RgvA==
+"@ladjs/shared-config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-1.0.1.tgz#2ca13b366ab10c9d80c278b82e85c64c1e2c1250"
+  integrity sha512-qA1VvVVdksIOxRxXs/5WBtolHZ/iFLVhApjrJ1mp3xoYRcWMbxV2CftVsca2U8gX1dHk92vOmkwkkHHjm/fX3Q==
   dependencies:
     boolean "^3.0.0"
     is-string-and-not-blank "^0.0.2"
@@ -1234,10 +1234,10 @@ bytes@^2.5.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
   integrity sha1-TJQj6i0lLCcMQbK97+/5u2tiwGo=
 
-cabin@^5.0.11:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.11.tgz#b02f5fa9f5551597b3938efefc75b9b1c5c3db9a"
-  integrity sha512-Yn4fVHFlLsjmHwXuadLnXcIDhu1faD4JgUnWgjLKHbKcd+jI86mFTjuFUHarS/+0lhm5OtNBFmroPAqz1k3JGw==
+cabin@^5.0.12:
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.12.tgz#b67cdb4c292830a9782dcfcbe1c11b40635b1361"
+  integrity sha512-YExY3OTqFdZOOdwDCtZxlkoPrmHdEqlittDZTVlurlbJqWGZvytMDtTIRdSYcxO1LoAlYOraik8A4wZEiumpzA==
   dependencies:
     ansi-colors "^4.1.1"
     axe "^4.0.5"
@@ -3615,7 +3615,7 @@ http-cache-semantics@^4.0.0:
   resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.0.3.tgz#495704773277eeef6e43f9ab2c2c7d259dda25c5"
   integrity sha512-TcIMG3qeVLgDr1TEd2XvHaTnMPwYQUQMIBLy+5pLSDKYFc7UIqj39w8EGzZkaxoLv/l2K8HaI0t5AVA+YYgUew==
 
-http-errors@1.7.3, http-errors@^1.3.1, http-errors@^1.6.3, http-errors@~1.7.2:
+http-errors@1.7.3, http-errors@^1.6.3, http-errors@^1.7.3, http-errors@~1.7.2:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"
   integrity sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
@@ -4551,10 +4551,10 @@ koa-better-error-handler@^3.0.3:
     statuses "^1.5.0"
     toidentifier "^1.0.0"
 
-koa-better-flash@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/koa-better-flash/-/koa-better-flash-0.0.3.tgz#4bfb1829f0f927e5a775770ea0ca0fa9440d8df0"
-  integrity sha512-p9uCfBejEEV5YJP28mB+4W8FREsE/407nQaSjjdjgP4MOFECzNqbcgib7XmRhHsuwGS9EQZe+uB3DKKOVPzG5Q==
+koa-better-flash@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/koa-better-flash/-/koa-better-flash-0.0.4.tgz#e052379c5dafbbbfd2d0ce31e7528d99d7b27569"
+  integrity sha512-EhsyNsPG2xSk/NUgHzq2ypsewdaRvQLtrzTxY0rXi9XeV3TPHkN2HR5eWotF42/Mg6aOTJ73WzfWyMFnbRLkRw==
 
 koa-better-timeout@^0.0.4:
   version "0.0.4"
@@ -5380,7 +5380,7 @@ messageformat@^2.3.0:
     messageformat-formatters "^2.0.1"
     messageformat-parser "^4.1.2"
 
-methods@*, methods@^1.0.1, methods@^1.1.1, methods@^1.1.2:
+methods@*, methods@^1.1.1, methods@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
@@ -6191,7 +6191,7 @@ path-parse@^1.0.6:
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
 
-path-to-regexp@^1.1.1:
+path-to-regexp@1.x:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-1.8.0.tgz#887b3ba9d84393e87a0a0b9f4cb756198b53548a"
   integrity sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
@@ -8925,7 +8925,7 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-urijs@^1.19.0:
+urijs@^1.19.2:
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/urijs/-/urijs-1.19.2.tgz#f9be09f00c4c5134b7cb3cf475c1dd394526265a"
   integrity sha512-s/UIq9ap4JPZ7H1EB5ULo/aOUbWqfDi7FKzMC2Nz+0Si8GiT1rIEaprt8hy3Vy2Ex2aJPpOQv4P4DuOZ+K1c6w==
