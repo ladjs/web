@@ -1233,10 +1233,10 @@ bytes@^2.5.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
   integrity sha1-TJQj6i0lLCcMQbK97+/5u2tiwGo=
 
-cabin@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.12.tgz#b67cdb4c292830a9782dcfcbe1c11b40635b1361"
-  integrity sha512-YExY3OTqFdZOOdwDCtZxlkoPrmHdEqlittDZTVlurlbJqWGZvytMDtTIRdSYcxO1LoAlYOraik8A4wZEiumpzA==
+cabin@^5.0.13:
+  version "5.0.13"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-5.0.13.tgz#b108647539cb28a9f760fdda653a7530b8558b4d"
+  integrity sha512-2jbj4rdy1r8UTUA5gUPIllaNOnqD1dgOp2vzlWMAD/i/GPXQo4cRugMCn3kI//pYcdkCHj/euOYQ7IO3czdmAg==
   dependencies:
     ansi-colors "^4.1.1"
     axe "^4.0.5"
