@@ -30,6 +30,7 @@ const koa404Handler = require('koa-404-handler');
 const koaConnect = require('koa-connect');
 const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
+const multimatch = require('multimatch');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
@@ -56,6 +57,7 @@ class Web {
         }
       },
       csrf: {},
+      csrfIgnoredGlobs: [],
       sessionKeys: process.env.SESSION_KEYS
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
@@ -239,6 +241,7 @@ class Web {
       return next();
     });
 
+    // TODO: move this into `@ladjs/csrf`
     // csrf (with added localization support)
     if (this.config.csrf && process.env.NODE_ENV !== 'test') {
       const csrf = new CSRF({
@@ -246,6 +249,15 @@ class Web {
         invalidTokenMessage: ctx => ctx.request.t('Invalid CSRF token')
       });
       app.use(async (ctx, next) => {
+        // check against ignored/whitelisted redirect middleware paths
+        if (
+          Array.isArray(this.config.csrfIgnoredGlobs) &&
+          this.config.csrfIgnoredGlobs.length > 0
+        ) {
+          const match = multimatch(ctx.path, this.config.csrfIgnoredGlobs);
+          if (Array.isArray(match) && match.length > 0) return next();
+        }
+
         try {
           await csrf(ctx, next);
         } catch (err) {
