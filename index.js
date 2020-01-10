@@ -9,7 +9,7 @@ const Cabin = require('cabin');
 const I18N = require('@ladjs/i18n');
 const Koa = require('koa');
 const Meta = require('koa-meta');
-const RedirectLoop = require('koa-redirect-loop');
+// const RedirectLoop = require('koa-redirect-loop');
 const Redis = require('@ladjs/redis');
 const StateHelper = require('@ladjs/state-helper');
 const StoreIPAddress = require('@ladjs/store-ip-address');
@@ -89,7 +89,7 @@ class Web {
       // <https://github.com/niftylettuce/koa-better-static#options>
       serveStatic: {},
       // <https://github.com/niftylettuce/koa-redirect-loop>
-      redirectLoop: {},
+      // redirectLoop: {},
       ...config
     };
 
@@ -123,9 +123,9 @@ class Web {
     );
 
     // redirect loop
-    let redirectLoop = false;
-    if (this.config.redirectLoop)
-      redirectLoop = new RedirectLoop(this.config.redirectLoop);
+    // let redirectLoop = false;
+    // if (this.config.redirectLoop)
+    //   redirectLoop = new RedirectLoop(this.config.redirectLoop);
 
     // store the server initialization
     // so that we can gracefully exit
@@ -224,7 +224,7 @@ class Web {
     );
 
     // redirect loop
-    if (redirectLoop) app.use(redirectLoop.middleware);
+    // if (redirectLoop) app.use(redirectLoop.middleware);
 
     // flash messages
     app.use(flash());
