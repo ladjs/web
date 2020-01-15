@@ -94,10 +94,15 @@ class Web {
     };
 
     const { logger } = this.config;
-    const storeIPAddress = new StoreIPAddress({
-      logger,
-      ...this.config.storeIPAddress
-    });
+
+    let storeIPAddress = false;
+
+    if (this.config.storeIPAddress)
+      storeIPAddress = new StoreIPAddress({
+        logger,
+        ...this.config.storeIPAddress
+      });
+
     const meta = new Meta(this.config.meta, logger);
     const stateHelper = new StateHelper(this.config.views.locals);
     let i18n = false;
@@ -305,7 +310,7 @@ class Web {
     if (i18n) app.use(i18n.redirect);
 
     // store the user's last ip address in the background
-    app.use(storeIPAddress.middleware);
+    if (storeIPAddress) app.use(storeIPAddress.middleware);
 
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeRoutes))
