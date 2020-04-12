@@ -215,19 +215,10 @@ class Web {
     if (this.config.cors) app.use(cors(this.config.cors));
 
     // security
-    if (this.config.helmet) {
-      app.use(helmet(this.config.helmet));
-    }
+    if (this.config.helmet) app.use(helmet(this.config.helmet));
 
     // add Expect-CT header for cert transparency
-    if (this.config.expectCT) {
-      app.use(
-        expectCt({
-          enforce: true,
-          maxAge: 60 * 60 * 1000
-        })
-      );
-    }
+    if (this.config.expectCT) app.use(expectCt(this.config.expectCT));
 
     // remove trailing slashes
     app.use(removeTrailingSlashes());
