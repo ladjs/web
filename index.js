@@ -23,7 +23,6 @@ const conditional = require('koa-conditional-get');
 const cors = require('kcors');
 const errorHandler = require('koa-better-error-handler');
 const etag = require('koa-etag');
-const expectCt = require('koa-expect-ct');
 const favicon = require('koa-favicon');
 const flash = require('koa-better-flash');
 const helmet = require('koa-helmet');
@@ -218,7 +217,7 @@ class Web {
     if (this.config.helmet) app.use(helmet(this.config.helmet));
 
     // add Expect-CT header for cert transparency
-    if (this.config.expectCT) app.use(expectCt(this.config.expectCT));
+    if (this.config.expectCT) app.use(helmet.expectCt(this.config.expectCT));
 
     // remove trailing slashes
     app.use(removeTrailingSlashes());
