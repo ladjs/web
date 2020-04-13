@@ -216,9 +216,6 @@ class Web {
     // security
     if (this.config.helmet) app.use(helmet(this.config.helmet));
 
-    // add Expect-CT header for cert transparency
-    if (this.config.expectCT) app.use(helmet.expectCt(this.config.expectCT));
-
     // remove trailing slashes
     app.use(removeTrailingSlashes());
 
