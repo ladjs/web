@@ -1,7 +1,7 @@
 {
   "name": "@ladjs/web",
   "description": "Web server for Lad",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "ava": {
     "failFast": true,
@@ -25,7 +25,7 @@
     "@ladjs/i18n": "^3.0.4",
     "@ladjs/koa-better-static": "^2.0.0",
     "@ladjs/redis": "^1.0.3",
-    "@ladjs/shared-config": "^1.0.3",
+    "@ladjs/shared-config": "^1.0.4",
     "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "3.0.1",
@@ -44,7 +44,6 @@
     "koa-connect": "^2.0.1",
     "koa-csrf": "^3.0.8",
     "koa-etag": "^3.0.0",
-    "koa-expect-ct": "0.0.1",
     "koa-favicon": "^2.1.0",
     "koa-generic-session": "^2.0.4",
     "koa-helmet": "^5.2.0",
