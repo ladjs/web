@@ -75,7 +75,7 @@ class Web {
         secure: process.env.WEB_PROTOCOL === 'https',
         // we use SameSite cookie support as an alternative to CSRF
         // <https://scotthelme.co.uk/csrf-is-dead/>
-        sameSite: 'lax'
+        sameSite: 'strict'
       },
       livereload: {
         port: process.env.LIVERELOAD_PORT
