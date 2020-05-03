@@ -75,7 +75,9 @@ class Web {
         secure: process.env.WEB_PROTOCOL === 'https',
         // we use SameSite cookie support as an alternative to CSRF
         // <https://scotthelme.co.uk/csrf-is-dead/>
-        sameSite: 'strict'
+        // 'strict' is ideal, but would cause issues when redirecting out
+        // for oauth flows to github, google, etc.
+        sameSite: 'lax'
       },
       livereload: {
         port: process.env.LIVERELOAD_PORT
