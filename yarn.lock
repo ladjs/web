@@ -377,10 +377,10 @@
   resolved "https://registry.yarnpkg.com/@ladjs/format-util/-/format-util-1.0.4.tgz#dd16ecee7b9d1deb56e1a4968dc5e9ac54499df3"
   integrity sha512-hZere0rUga8kTzSTFbHREXpD9E/jwi94+B5RyLAmMIzl/w/EK1z7rFEnMHzPkU4AZkL42JWSsGXoV8LXMihybg==
 
-"@ladjs/i18n@^3.0.7":
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-3.0.7.tgz#2a9dee51c96436c9743d6c1477474ea36d93175f"
-  integrity sha512-blsRGdJhdNfrc7JqF4DGaBzM5V+T2YD5T8qMk5jeJCEwutQcjOVkT+z7y8hOIVznjFp8j+ZKu1bSy53uhqz3JA==
+"@ladjs/i18n@^3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@ladjs/i18n/-/i18n-3.0.8.tgz#d1a9395db67e034d7da8efba093066895108f1bb"
+  integrity sha512-hduv8N4wgoVKSOwK+qiREpLy3xd1TTtmlSLc8Z4Xa4FH1C7TJNq5ck7CNZ1ZD5kTiOBws9AkAtoxntdnvdAC2g==
   dependencies:
     "@hapi/boom" "^9.1.0"
     boolean "3.0.1"
