@@ -409,10 +409,10 @@
   dependencies:
     ioredis "^4.14.0"
 
-"@ladjs/shared-config@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-2.0.4.tgz#ced2bebc24946a94ff466a4310c301a73d6a4235"
-  integrity sha512-hcROQ5n+ykK2+8zM7jCsijDNsrnc0Hv+uNDa9MbHuV7IKVNAIlhyvksg70+/cXYHkDcUz+cZ5IfwpiJIcdhLHA==
+"@ladjs/shared-config@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-2.0.5.tgz#fb1f4eabbf902ab85f82d6285b95b9eac817e303"
+  integrity sha512-IeZdBHPxfaNjEcOh2YrKGA4oNZiwZwFF+VBYg1N0YOy9h3HridQhILP7AiAu+9rzvM4RT3oRt0vc2yG1XVqeTg==
   dependencies:
     boolean "^3.0.1"
     is-string-and-not-blank "^0.0.2"
