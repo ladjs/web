@@ -30,7 +30,6 @@ const isajax = require('koa-isajax');
 const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
 const koaConnect = require('koa-connect');
-const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
 const multimatch = require('multimatch');
 const redisStore = require('koa-redis');
@@ -78,11 +77,6 @@ class Web {
         // 'strict' is ideal, but would cause issues when redirecting out
         // for oauth flows to github, google, etc.
         sameSite: 'lax'
-      },
-      livereload: {
-        port: process.env.LIVERELOAD_PORT
-          ? parseInt(process.env.LIVERELOAD_PORT, 10)
-          : 35729
       },
       favicon: {
         path: path.resolve('./assets/img/favicon.ico'),
@@ -190,10 +184,6 @@ class Web {
 
     // setup localization
     if (i18n) app.use(i18n.middleware);
-
-    // livereload if we're in dev mode
-    if (process.env.NODE_ENV === 'development')
-      app.use(livereload(this.config.livereload));
 
     if (this.config.auth) app.use(auth(this.config.auth));
 
