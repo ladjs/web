@@ -4525,6 +4525,14 @@ koa-json@^2.0.2:
     koa-is-json "1"
     streaming-json-stringify "3"
 
+koa-livereload@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/koa-livereload/-/koa-livereload-0.2.0.tgz#6eb4ca910a5c78f4050cb28306958a1b7160ab2e"
+  integrity sha1-brTKkQpcePQFDLKDBpWKG3Fgqy4=
+  dependencies:
+    koa "^2.0.0"
+    stream-injecter "0.0.1"
+
 "koa-logger@https://github.com/niftylettuce/logger":
   version "3.1.0"
   resolved "https://github.com/niftylettuce/logger#0714ea6917061d1da16da13ffb7a6c199bd5df88"
@@ -4595,7 +4603,7 @@ koa-views@^6.2.1:
     mz "^2.4.0"
     pretty "^2.0.0"
 
-koa@^2.11.0:
+koa@^2.0.0, koa@^2.11.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/koa/-/koa-2.11.0.tgz#fe5a51c46f566d27632dd5dc8fd5d7dd44f935a4"
   integrity sha512-EpR9dElBTDlaDgyhDMiLkXrPwp6ZqgAIBvhhmxQ9XN4TFgW+gEz6tkcsNI6BnUbUftrKDjVFj4lW2/J2aNBMMA==
@@ -7836,6 +7844,11 @@ stream-events@^1.0.5:
   integrity sha512-E1GUzBSgvct8Jsb3v2X15pjzN1tYebtbLaMg+eBOUOAxgbLoSbT2NS91ckc5lJD1KfLjId+jXJRgo0qnV5Nerg==
   dependencies:
     stubs "^3.0.0"
+
+stream-injecter@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/stream-injecter/-/stream-injecter-0.0.1.tgz#7507ae5eab9836536665e81ad8ce31b40fe3d455"
+  integrity sha1-dQeuXquYNlNmZega2M4xtA/j1FU=
 
 streaming-json-stringify@3:
   version "3.1.0"

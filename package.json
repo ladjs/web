@@ -49,6 +49,7 @@
     "koa-helmet": "^5.2.0",
     "koa-isajax": "^1.0.5",
     "koa-json": "^2.0.2",
+    "koa-livereload": "^0.2.0",
     "koa-logger": "https://github.com/niftylettuce/logger",
     "koa-meta": "^0.2.2",
     "koa-methodoverride": "^2.0.0",
