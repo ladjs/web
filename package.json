@@ -1,7 +1,7 @@
 {
   "name": "@ladjs/web",
   "description": "Web server for Lad",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "ava": {
     "failFast": true,
