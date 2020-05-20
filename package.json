@@ -1,7 +1,7 @@
 {
   "name": "@ladjs/web",
   "description": "Web server for Lad",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "ava": {
     "failFast": true,
@@ -25,7 +25,7 @@
     "@ladjs/i18n": "^3.0.10",
     "@ladjs/koa-better-static": "^2.0.0",
     "@ladjs/redis": "^1.0.3",
-    "@ladjs/shared-config": "^2.0.9",
+    "@ladjs/shared-config": "^2.0.11",
     "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "3.0.1",
