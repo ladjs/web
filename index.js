@@ -4,13 +4,14 @@ const https = require('https');
 const path = require('path');
 const util = require('util');
 
+// const RedirectLoop = require('koa-redirect-loop');
 const Boom = require('@hapi/boom');
 const CSRF = require('koa-csrf');
 const Cabin = require('cabin');
+const CacheResponses = require('@ladjs/koa-cache-responses');
 const I18N = require('@ladjs/i18n');
 const Koa = require('koa');
 const Meta = require('koa-meta');
-// const RedirectLoop = require('koa-redirect-loop');
 const Redis = require('@ladjs/redis');
 const StateHelper = require('@ladjs/state-helper');
 const StoreIPAddress = require('@ladjs/store-ip-address');
@@ -29,6 +30,7 @@ const helmet = require('koa-helmet');
 const isajax = require('koa-isajax');
 const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
+const koaCash = require('koa-cash');
 const koaConnect = require('koa-connect');
 const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
@@ -89,10 +91,19 @@ class Web {
         options: {}
       },
       buildDir: path.resolve('./build'),
+
       // <https://github.com/niftylettuce/koa-better-static#options>
       serveStatic: {},
+
       // <https://github.com/niftylettuce/koa-redirect-loop>
       // redirectLoop: {},
+
+      // <https://github.com/koajs/cash>
+      koaCash: false,
+
+      // <https://github.com/ladjs/koa-cache-responses>
+      cacheResponses: false,
+
       ...config
     };
 
@@ -173,6 +184,15 @@ class Web {
 
     // compress/gzip
     app.use(compress());
+
+    // cache support
+    if (this.config.koaCash) app.use(koaCash(this.config.koaCash));
+
+    // cache responses
+    if (this.config.cacheResponses) {
+      this.cacheResponses = new CacheResponses(this.config.cacheResponses);
+      app.use(this.cacheResponses.middleware);
+    }
 
     // favicons
     app.use(favicon(this.config.favicon.path, this.config.favicon.options));
