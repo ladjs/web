@@ -417,10 +417,10 @@
   dependencies:
     ioredis "^4.14.0"
 
-"@ladjs/shared-config@^2.0.11":
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-2.0.11.tgz#66478a3748fa42e1178332a9ca7981f7c4d58dc0"
-  integrity sha512-5LGZDYTd+Nll1OAAzNmYrnHehLpKC2yveK602M6TgqUTn5GSUKVBk498DVkaxRj2UlPY595XothdZCTPqagPTA==
+"@ladjs/shared-config@^2.0.12":
+  version "2.0.12"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-2.0.12.tgz#986bbf886e960df058f074d848007b407760982c"
+  integrity sha512-93hGq1UrmOvtR/YXjQTLvmIukWs0OoLHQOFZkDuv5QU0u1ONr0kHJwdNeQLY0ngs3a15CfKVVyT6LlnuWDg+WQ==
   dependencies:
     boolean "^3.0.1"
     is-string-and-not-blank "^0.0.2"
@@ -4454,10 +4454,10 @@ koa-bodyparser@^4.3.0:
     co-body "^6.0.0"
     copy-to "^2.0.1"
 
-koa-cash@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/koa-cash/-/koa-cash-3.0.3.tgz#9203e2f7d7e9fa6f7d191c47e0d4950a7814bca6"
-  integrity sha512-ME3/0l746F2B73bfF9E1F9WsaTbqm5rkUQTT2tzuFFZhaRzTHxvWL7kRcDDV31WMEjRJ2e6dbpEHEUynuXjRlw==
+koa-cash@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/koa-cash/-/koa-cash-3.0.4.tgz#21ec43ed8ee8d6c56fc61df47949f67b1a9d8e2a"
+  integrity sha512-ISlYf6t8Yy6wFk/dTgZIRozbtztu3OCfZpr62WdBDvXcjUs+Ecs404EWVPwSiILUsdJ/yBkPkEI9gzKTPjYryw==
   dependencies:
     bytes "^3.1.0"
     compressible "^2.0.18"
