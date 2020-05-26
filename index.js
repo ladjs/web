@@ -21,6 +21,7 @@ const bodyParser = require('koa-bodyparser');
 const compress = require('koa-compress');
 const conditional = require('koa-conditional-get');
 const cors = require('kcors');
+const cryptoRandomString = require('crypto-random-string');
 const errorHandler = require('koa-better-error-handler');
 const etag = require('koa-etag');
 const favicon = require('koa-favicon');
@@ -92,6 +93,10 @@ class Web {
       // this is an instance of bull passed to context
       // so users can use it in routes, e.g. `ctx.bull`
       bull: false,
+
+      genSid() {
+        return cryptoRandomString({ length: 32 });
+      },
 
       ...config
     };
@@ -240,7 +245,8 @@ class Web {
       session({
         store: redisStore({ client }),
         key: this.config.cookiesKey,
-        cookie: this.config.cookies
+        cookie: this.config.cookies,
+        genSid: this.config.genSid
       })
     );
 
