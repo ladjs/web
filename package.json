@@ -30,7 +30,7 @@
     "@ladjs/state-helper": "^0.0.2",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "3.0.1",
-    "cabin": "^6.1.1",
+    "cabin": "^6.1.2",
     "crypto-random-string": "^3.2.0",
     "express-request-id": "^1.4.1",
     "kcors": "^2.2.2",

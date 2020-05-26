@@ -988,7 +988,7 @@ ava@^3.8.2:
     write-file-atomic "^3.0.3"
     yargs "^15.3.1"
 
-axe@^5.0.1:
+axe@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/axe/-/axe-5.1.0.tgz#7b920d51e6522ea642ae5dfdcd133252ddf21ab8"
   integrity sha512-AsJkazejAX4oplu23aJSY8N3V6FkAl+UmgyRJXB3eCFkXpN2Umw9G4Z6DttQNpJXdkdRoTy1/m/Q9B5XM4He0g==
@@ -1176,14 +1176,14 @@ bytes@3.1.0, bytes@^3.0.0, bytes@^3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cabin@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-6.1.1.tgz#cf1473deb49a2da4e221faab1ae69933562de7c4"
-  integrity sha512-4W8EorCfP9Ftn1iKWghQsj4YCmlkJ9AqC9eM7Q6uBR0IZa44usb7aHCaHsUh0qq1h1J3P445YE9oRUa1wwi8hw==
+cabin@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-6.1.2.tgz#b7e22f058dedecfddc1789e79c7cbace7305c7cf"
+  integrity sha512-sY8/JMTENrVwrBxD+JZ6dmvmADawcxI0TwAT7H+zGIrsGOiTbnwf93VH1x6O/+tGKZ1n5Gzpm+QRndET86mrcA==
   dependencies:
     ansi-colors "^4.1.1"
-    axe "^5.0.1"
-    clf-date "^0.1.0"
+    axe "^5.1.0"
+    clf-date "^0.2.0"
     iserror "^0.0.2"
     ms "^2.1.2"
     on-finished "^2.3.0"
@@ -1447,10 +1447,10 @@ clean-yaml-object@^0.1.0:
   resolved "https://registry.yarnpkg.com/clean-yaml-object/-/clean-yaml-object-0.1.0.tgz#63fb110dc2ce1a84dc21f6d9334876d010ae8b68"
   integrity sha1-Y/sRDcLOGoTcIfbZM0h20BCui2g=
 
-clf-date@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/clf-date/-/clf-date-0.1.0.tgz#443c8ffb04efdf131ab20a8e61fe314570ce749d"
-  integrity sha512-CeuGmzCyLl/mYcLrBJO7B+NF3LieKWYSdnVPAfgqeEz8NfOnA4B/+0My5ZYEhsI2hlIMiGYvu7QhvVL+LaA8/w==
+clf-date@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/clf-date/-/clf-date-0.2.0.tgz#e552b4a69bde5bc44dae5fc1e668442e49b1af87"
+  integrity sha512-KmV+reIoSINOik5moU6eOqSUy3r/9t6J6Dbl4TCndg1g0R6Z3S3xHzd3u0ZeoTUSbUFr9hHbpiZ+36MrhlNEHQ==
 
 cli-boxes@^2.2.0:
   version "2.2.0"
