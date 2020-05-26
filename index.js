@@ -88,6 +88,11 @@ class Web {
       // <https://github.com/ladjs/koa-cache-responses>
       cacheResponses: false,
 
+      // <https://github.com/ladjs/bull>
+      // this is an instance of bull passed to context
+      // so users can use it in routes, e.g. `ctx.bull`
+      bull: false,
+
       ...config
     };
 
@@ -138,6 +143,10 @@ class Web {
     // override koa's undocumented error handler
     // <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
     app.context.onerror = errorHandler;
+
+    // set bull to be shared throughout app context
+    // (very useful for not creating additional connections)
+    if (this.config.bull) app.context.bull = this.config.bull;
 
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => ctx.logger.error(err));
