@@ -61,7 +61,7 @@ class Web {
         }
       },
       csrf: {},
-      csrfIgnoredGlobs: [],
+      csrfIgnoredGlobs: ['/report'],
       sessionKeys: process.env.SESSION_KEYS
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
