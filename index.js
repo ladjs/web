@@ -32,7 +32,6 @@ const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
 const koaCash = require('koa-cash');
 const koaConnect = require('koa-connect');
-const livereload = require('koa-livereload');
 const methodOverride = require('koa-methodoverride');
 const multimatch = require('multimatch');
 const redisStore = require('koa-redis');
@@ -66,11 +65,6 @@ class Web {
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
       cookiesKey: process.env.COOKIES_KEY || 'lad.sid',
-      livereload: {
-        port: process.env.LIVERELOAD_PORT
-          ? parseInt(process.env.LIVERELOAD_PORT, 10)
-          : 35729
-      },
       favicon: {
         path: path.resolve('./assets/img/favicon.ico'),
         options: {}
@@ -208,10 +202,6 @@ class Web {
 
     // setup localization
     if (i18n) app.use(i18n.middleware);
-
-    // livereload if we're in dev mode
-    if (process.env.NODE_ENV === 'development')
-      app.use(livereload(this.config.livereload));
 
     if (this.config.auth) app.use(auth(this.config.auth));
 
