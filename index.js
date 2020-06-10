@@ -28,12 +28,14 @@ const etag = require('koa-etag');
 const favicon = require('koa-favicon');
 const flash = require('koa-better-flash');
 const helmet = require('koa-helmet');
+const isSANB = require('is-string-and-not-blank');
 const isajax = require('koa-isajax');
 const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
 const koaCash = require('koa-cash');
 const koaConnect = require('koa-connect');
 const methodOverride = require('koa-methodoverride');
+const ms = require('ms');
 const multimatch = require('multimatch');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
@@ -46,6 +48,13 @@ const sharedConfig = require('@ladjs/shared-config');
 const views = require('koa-views');
 const { boolean } = require('boolean');
 const { ratelimit } = require('koa-simple-ratelimit');
+
+const defaultSrc = isSANB(process.env.WEB_HOST)
+  ? ["'self'", 'data:', `*.${process.env.WEB_HOST}:*`]
+  : null;
+const reportUri = isSANB(process.env.WEB_URL)
+  ? `${process.env.WEB_URL}/report`
+  : null;
 
 class Web {
   // eslint-disable-next-line complexity
@@ -92,6 +101,48 @@ class Web {
       genSid() {
         return cryptoRandomString({ length: 32 });
       },
+
+      helmet: {
+        contentSecurityPolicy: defaultSrc
+          ? {
+              directives: {
+                defaultSrc,
+                connectSrc: defaultSrc,
+                fontSrc: defaultSrc,
+                imgSrc: defaultSrc,
+                styleSrc: [...defaultSrc, "'unsafe-inline'"],
+                scriptSrc: [...defaultSrc, "'unsafe-inline'"],
+                reportUri: reportUri ? reportUri : null
+              }
+            }
+          : null,
+        expectCt: {
+          enforce: true,
+          // https://httpwg.org/http-extensions/expect-ct.html#maximum-max-age
+          maxAge: ms('30d') / 1000,
+          reportUri
+        },
+        // <https://hstspreload.org/>
+        // <https://helmetjs.github.io/docs/hsts/#preloading-hsts-in-chrome>
+        hsts: {
+          // must be at least 1 year to be approved
+          maxAge: ms('1y') / 1000,
+          // must be enabled to be approved
+          includeSubDomains: true,
+          preload: true
+        },
+        // <https://helmetjs.github.io/docs/referrer-policy>
+        // <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy>
+        referrerPolicy: {
+          policy: 'same-origin'
+        },
+        xssFilter: {
+          reportUri
+        }
+      },
+
+      // <https://github.com/koajs/cors#corsoptions>
+      cors: {},
 
       ...config
     };
