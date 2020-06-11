@@ -417,10 +417,10 @@
   dependencies:
     ioredis "^4.17.1"
 
-"@ladjs/shared-config@^3.0.7":
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-3.0.7.tgz#f9ab641b8e7af4b20115a41f6cea7ce3b94b3880"
-  integrity sha512-GTIhVjbLFoV1mY0EO3/ngIp4PF80YNIKl3XZKuFma0SNgJLNiNipxHustXCOeta349XN5qCHXEW/rkcOhSZfUg==
+"@ladjs/shared-config@^3.0.8":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@ladjs/shared-config/-/shared-config-3.0.8.tgz#b367748364727eb0e40a42e2673e880746a93634"
+  integrity sha512-W5XIf7GmALfxTJ5W4IPbVxIZr4xuSP6QAWL81Ac07MyKYx0HHE75pZOtFMH/hvKRr3qehT4NYqK037vyx/9H4w==
   dependencies:
     boolean "^3.0.1"
     is-string-and-not-blank "^0.0.2"

@@ -140,9 +140,6 @@ class Web {
         }
       },
 
-      // <https://github.com/koajs/cors#corsoptions>
-      cors: {},
-
       ...config
     };
 
@@ -173,6 +170,10 @@ class Web {
     // initialize the app
     const app = new Koa();
 
+    // listen for error and log events emitted by app
+    app.on('error', (err, ctx) => ctx.logger.error(err));
+    app.on('log', logger.log);
+
     // initialize redis
     const client = new Redis(
       this.config.redis,
@@ -194,23 +195,22 @@ class Web {
     // <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
     app.context.onerror = errorHandler;
 
+    // allow middleware to access redis client
+    app.context.client = client;
+
     // set bull to be shared throughout app context
     // (very useful for not creating additional connections)
     if (this.config.bull) app.context.bull = this.config.bull;
 
-    // listen for error and log events emitted by app
-    app.on('error', (err, ctx) => ctx.logger.error(err));
-    app.on('log', logger.log);
-
-    // allow before hooks to get setup
-    if (_.isFunction(this.config.hookBeforeSetup))
-      this.config.hookBeforeSetup(app);
+    // only trust proxy if enabled
+    app.proxy = boolean(process.env.TRUST_PROXY);
 
     // inherit cache variable for cache-pug-templates
     app.cache = boolean(this.config.views.locals.cache);
 
-    // only trust proxy if enabled
-    app.proxy = boolean(process.env.TRUST_PROXY);
+    // allow before hooks to get setup
+    if (_.isFunction(this.config.hookBeforeSetup))
+      this.config.hookBeforeSetup(app);
 
     // adds request received hrtime and date symbols to request object
     // (which is used by Cabin internally to add `request.timestamp` to logs
