@@ -1,5 +1,6 @@
 const http = require('http');
-const http2 = require('http2');
+const https = require('https');
+// const http2 = require('http2');
 const path = require('path');
 const util = require('util');
 
@@ -388,7 +389,8 @@ class Web {
 
     // start server on either http or https
     if (this.config.protocol === 'https')
-      server = http2.createSecureServer(this.config.ssl, app.callback());
+      server = https.createServer(this.config.ssl, app.callback());
+    // server = http2.createSecureServer(this.config.ssl, app.callback());
     else server = http.createServer(app.callback());
 
     // expose app, server, client
