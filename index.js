@@ -102,6 +102,20 @@ class Web {
         return cryptoRandomString({ length: 32 });
       },
 
+      methodOverride: [
+        req => {
+          const { _method } = req.body;
+          if (
+            typeof _method !== 'string' &&
+            !['PUT', 'DELETE'].includes(_method)
+          ) {
+            throw new Error(`method override of ${_method} is not valid`);
+          }
+
+          return _method;
+        }
+      ],
+
       helmet: {
         contentSecurityPolicy: defaultSrc
           ? {
@@ -298,15 +312,16 @@ class Web {
     // flash messages
     app.use(flash());
 
-    // method override
-    // (e.g. `<input type="hidden" name="_method" value="PUT" />`)
-    app.use(methodOverride());
-
     // body parser
     app.use(bodyParser());
 
     // pretty-printed json responses
     app.use(json());
+
+    // method override
+    // (e.g. `<input type="hidden" name="_method" value="PUT" />`)
+    if (this.config.methodOverride)
+      app.use(methodOverride(...this.config.methodOverride));
 
     // ajax request detection (sets `ctx.state.xhr` boolean)
     app.use(isajax());
