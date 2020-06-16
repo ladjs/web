@@ -105,14 +105,7 @@ class Web {
       methodOverride: [
         req => {
           const { _method } = req.body;
-          if (
-            typeof _method !== 'string' &&
-            !['PUT', 'DELETE'].includes(_method)
-          ) {
-            throw new Error(`method override of ${_method} is not valid`);
-          }
-
-          return _method;
+          if (_method && typeof _method === 'string') return _method;
         }
       ],
 
