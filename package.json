@@ -42,7 +42,7 @@
     "koa-better-flash": "^0.0.4",
     "koa-better-timeout": "^0.0.4",
     "koa-bodyparser": "^4.3.0",
-    "koa-cash": "^3.0.4",
+    "koa-cash": "^4.0.0",
     "koa-compress": "^4.0.1",
     "koa-conditional-get": "^2.0.0",
     "koa-connect": "^2.0.1",
