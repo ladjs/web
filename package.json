@@ -42,7 +42,7 @@
     "koa-better-flash": "^0.0.4",
     "koa-better-timeout": "^0.0.4",
     "koa-bodyparser": "^4.3.0",
-    "koa-cash": "^4.0.0",
+    "koa-cash": "^4.0.1",
     "koa-compress": "^4.0.1",
     "koa-conditional-get": "^2.0.0",
     "koa-connect": "^2.0.1",
@@ -66,8 +66,8 @@
     "response-time": "^2.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "ava": "^3.9.0",
     "codecov": "^3.7.0",
     "cross-env": "^7.0.2",
@@ -75,11 +75,11 @@
     "eslint-config-xo-lass": "^1.0.3",
     "fixpack": "^3.0.6",
     "husky": "^4.2.5",
-    "lint-staged": "10.2.10",
+    "lint-staged": "10.2.11",
     "nyc": "^15.1.0",
     "pug": "^3.0.0",
     "remark-cli": "^8.0.0",
-    "remark-preset-github": "^1.0.1",
+    "remark-preset-github": "^2.0.0",
     "supertest": "^4.0.2",
     "xo": "0.25"
   },
