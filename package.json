@@ -56,7 +56,6 @@
     "koa-meta": "^0.2.3",
     "koa-methodoverride": "^2.0.0",
     "koa-no-trailing-slash": "^2.1.0",
-    "koa-qs": "^3.0.0",
     "koa-redis": "^4.0.1",
     "koa-simple-ratelimit": "^4.0.2",
     "koa-views": "^6.3.0",

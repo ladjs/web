@@ -34,7 +34,6 @@ const json = require('koa-json');
 const koa404Handler = require('koa-404-handler');
 const koaCash = require('koa-cash');
 const koaConnect = require('koa-connect');
-const koaQs = require('koa-qs');
 const methodOverride = require('koa-methodoverride');
 const ms = require('ms');
 const multimatch = require('multimatch');
@@ -90,9 +89,6 @@ class Web {
 
       // <https://github.com/koajs/cash>
       koaCash: false,
-
-      // <https://github.com/koajs/qs>
-      koaQs: ['extended'],
 
       // <https://github.com/ladjs/koa-cache-responses>
       cacheResponses: false,
@@ -235,8 +231,6 @@ class Web {
 
     // adds or re-uses `X-Request-Id` header
     app.use(koaConnect(requestId()));
-
-    if (this.config.koaQs) koaQs(app, ...this.config.koaQs);
 
     // add cabin middleware
     app.use(cabin.middleware);
