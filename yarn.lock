@@ -4448,10 +4448,10 @@ koa-json@^2.0.2:
     koa-is-json "1"
     streaming-json-stringify "3"
 
-koa-meta@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/koa-meta/-/koa-meta-0.2.3.tgz#810981a50d12ec5028f3d866b2f810294dbe2374"
-  integrity sha512-jDNqK6lyrcyGlqqKO8YFVME3XGqbqtSEP+oZRJSM/N3x3/2VLvYBLryc3U707CmNuqUO/y1BAay0FZQbkDuncQ==
+koa-meta@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/koa-meta/-/koa-meta-0.2.4.tgz#69709dbe0b54b2f4f97434616e286f21cf6a8522"
+  integrity sha512-xaAg9BhbVVhP3Kz7w0EqIqoG2jlKySO5WPgv529EztdiMSuKhF0ScqCPuGm2kgUt9gSxDN/Is5ZeoGnEE+XhJg==
   dependencies:
     sanitize-html "^1.27.0"
 
@@ -6414,7 +6414,7 @@ remark-heading-gap@^3.1.2:
   resolved "https://registry.yarnpkg.com/remark-heading-gap/-/remark-heading-gap-3.1.2.tgz#480b71a655e793848db42b714358b5533d7d5ec3"
   integrity sha512-LNm1B4UveH1BkSLx4OPab0vW/p3KOc+8wV4kd94CHXmhuJ8i+kdroG2AonkUVzbOElc8U8ylxF3WPfmqYbRjJg==
 
-"remark-license@github:niftylettuce/remark-license":
+remark-license@niftylettuce/remark-license:
   version "4.0.1"
   resolved "https://codeload.github.com/niftylettuce/remark-license/tar.gz/17ecb8f64f8f6082414d14f9267a12764e6ddbfb"
   dependencies:

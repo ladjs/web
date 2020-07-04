@@ -53,7 +53,7 @@
     "koa-helmet": "^5.2.0",
     "koa-isajax": "^1.0.5",
     "koa-json": "^2.0.2",
-    "koa-meta": "^0.2.3",
+    "koa-meta": "^0.2.4",
     "koa-methodoverride": "^2.0.0",
     "koa-no-trailing-slash": "^2.1.0",
     "koa-redis": "^4.0.1",
