@@ -42,7 +42,7 @@
     "koa-better-flash": "^0.0.4",
     "koa-better-timeout": "^0.0.4",
     "koa-bodyparser": "^4.3.0",
-    "koa-cash": "^4.0.4",
+    "koa-cash": "^4.0.5",
     "koa-compress": "^4.0.1",
     "koa-conditional-get": "^2.0.0",
     "koa-connect": "^2.1.0",
@@ -79,7 +79,7 @@
     "nyc": "^15.1.0",
     "pug": "^3.0.0",
     "remark-cli": "^8.0.0",
-    "remark-preset-github": "^2.0.0",
+    "remark-preset-github": "^2.0.2",
     "supertest": "^4.0.2",
     "xo": "0.25"
   },
