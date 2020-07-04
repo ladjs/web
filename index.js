@@ -3,6 +3,7 @@ const https = require('https');
 // const http2 = require('http2');
 const path = require('path');
 const util = require('util');
+const zlib = require('zlib');
 
 // const RedirectLoop = require('koa-redirect-loop');
 const Boom = require('@hapi/boom');
@@ -148,6 +149,16 @@ class Web {
         }
       },
 
+      // https://github.com/koajs/compress
+      compress: {
+        br: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT,
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 4
+          }
+        }
+      },
+
       ...config
     };
 
@@ -236,7 +247,7 @@ class Web {
     app.use(cabin.middleware);
 
     // compress/gzip
-    app.use(compress());
+    if (this.config.compress) app.use(compress(this.config.compress));
 
     // cache support
     if (this.config.koaCash) app.use(koaCash(this.config.koaCash));
