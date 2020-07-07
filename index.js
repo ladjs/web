@@ -190,8 +190,6 @@ class Web {
 
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => {
-      console.log('error', err);
-      console.log('ctx', ctx);
       ctx.logger[err.status && err.status < 500 ? 'warn' : 'error'](err);
     });
     app.on('log', logger.log);
