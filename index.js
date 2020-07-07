@@ -98,11 +98,6 @@ class Web {
       // <https://github.com/ladjs/koa-cache-responses>
       cacheResponses: false,
 
-      // <https://github.com/ladjs/bull>
-      // this is an instance of bull passed to context
-      // so users can use it in routes, e.g. `ctx.bull`
-      bull: false,
-
       genSid() {
         return cryptoRandomString({ length: 32 });
       },
@@ -195,6 +190,8 @@ class Web {
 
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => {
+      console.log('error', err);
+      console.log('ctx', ctx);
       ctx.logger[err.status && err.status < 500 ? 'warn' : 'error'](err);
     });
     app.on('log', logger.log);
@@ -222,10 +219,6 @@ class Web {
 
     // allow middleware to access redis client
     app.context.client = client;
-
-    // set bull to be shared throughout app context
-    // (very useful for not creating additional connections)
-    if (this.config.bull) app.context.bull = this.config.bull;
 
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
