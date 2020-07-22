@@ -103,8 +103,8 @@ class Web {
       },
 
       methodOverride: [
-        req => {
-          const { _method } = req.body;
+        (request) => {
+          const { _method } = request.body;
           if (_method && typeof _method === 'string') return _method;
         }
       ],
@@ -342,7 +342,7 @@ class Web {
     if (this.config.csrf && process.env.NODE_ENV !== 'test') {
       const csrf = new CSRF({
         ...this.config.csrf,
-        invalidTokenMessage: ctx => ctx.request.t('Invalid CSRF token')
+        invalidTokenMessage: (ctx) => ctx.request.t('Invalid CSRF token')
       });
       app.use(async (ctx, next) => {
         // check against ignored/whitelisted redirect middleware paths
@@ -357,13 +357,13 @@ class Web {
         try {
           await csrf(ctx, next);
         } catch (err) {
-          let e = err;
+          let error = err;
           if (err.name && err.name === 'ForbiddenError') {
-            e = Boom.forbidden(err.message);
-            if (err.stack) e.stack = err.stack;
+            error = Boom.forbidden(err.message);
+            if (err.stack) error.stack = err.stack;
           }
 
-          ctx.throw(e);
+          ctx.throw(error);
         }
       });
     }

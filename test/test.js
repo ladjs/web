@@ -3,10 +3,10 @@ const request = require('supertest');
 const Router = require('@koa/router');
 const Web = require('..');
 
-test('allows custom routes', async t => {
+test('allows custom routes', async (t) => {
   const router = new Router({ prefix: '/:locale' });
 
-  router.get('/', ctx => {
+  router.get('/', (ctx) => {
     ctx.body = { ok: 'ok' };
   });
 
@@ -14,19 +14,19 @@ test('allows custom routes', async t => {
     routes: router.routes()
   });
 
-  const res = await request(web.server).get('/en');
-  t.is(res.status, 200);
-  t.is(res.body.ok, 'ok');
+  const response = await request(web.server).get('/en');
+  t.is(response.status, 200);
+  t.is(response.body.ok, 'ok');
 });
 
-test('default method override', async t => {
+test('default method override', async (t) => {
   const router = new Router();
 
-  router.post('/', ctx => {
+  router.post('/', (ctx) => {
     ctx.body = { method: 'post' };
   });
 
-  router.put('/', ctx => {
+  router.put('/', (ctx) => {
     ctx.body = { method: 'put' };
   });
 
@@ -34,11 +34,11 @@ test('default method override', async t => {
     routes: router.routes()
   });
 
-  const res = await request(web.server)
+  const response = await request(web.server)
     .post('/')
     .send({ _method: 'PUT' })
     .set('Accept', 'application/json');
-  t.is(res.status, 200);
-  t.is(res.body.method, 'put');
-  t.is(res.request.method, 'POST');
+  t.is(response.status, 200);
+  t.is(response.body.method, 'put');
+  t.is(response.request.method, 'POST');
 });
