@@ -5,7 +5,6 @@ const path = require('path');
 const util = require('util');
 const zlib = require('zlib');
 
-// const RedirectLoop = require('koa-redirect-loop');
 const Boom = require('@hapi/boom');
 const CSRF = require('koa-csrf');
 const Cabin = require('cabin');
@@ -13,6 +12,7 @@ const CacheResponses = require('@ladjs/koa-cache-responses');
 const I18N = require('@ladjs/i18n');
 const Koa = require('koa');
 const Meta = require('koa-meta');
+const RedirectLoop = require('koa-redirect-loop');
 const Redis = require('@ladjs/redis');
 const StateHelper = require('@ladjs/state-helper');
 const StoreIPAddress = require('@ladjs/store-ip-address');
@@ -90,7 +90,7 @@ class Web {
       serveStatic: {},
 
       // <https://github.com/niftylettuce/koa-redirect-loop>
-      // redirectLoop: {},
+      redirectLoop: {},
 
       // <https://github.com/koajs/cash>
       koaCash: false,
@@ -201,22 +201,16 @@ class Web {
       this.config.redisMonitor
     );
 
-    // redirect loop
-    // let redirectLoop = false;
-    // if (this.config.redirectLoop)
-    //   redirectLoop = new RedirectLoop(this.config.redirectLoop);
-
     // store the server initialization
     // so that we can gracefully exit
     // later on with `server.close()`
     let server;
 
-    // override koa's undocumented error handler
-    // <https://github.com/sindresorhus/eslint-plugin-unicorn/issues/174>
-    app.context.onerror = errorHandler;
-
     // allow middleware to access redis client
     app.context.client = client;
+
+    // override koa's undocumented error handler
+    app.context.onerror = errorHandler(this.config.cookiesKey, logger);
 
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
@@ -308,7 +302,10 @@ class Web {
     );
 
     // redirect loop
-    // if (redirectLoop) app.use(redirectLoop.middleware);
+    if (this.config.redirectLoop) {
+      const redirectLoop = new RedirectLoop(this.config.redirectLoop);
+      app.use(redirectLoop.middleware);
+    }
 
     // flash messages
     app.use(flash());
@@ -329,13 +326,6 @@ class Web {
 
     // 404 handler
     app.use(koa404Handler);
-
-    app.use((ctx, next) => {
-      // TODO: add cookies key until koa-better-error-handler issue is resolved
-      // <https://github.com/koajs/generic-session/pull/95#issuecomment-246308544>
-      ctx.state.cookiesKey = this.config.cookiesKey;
-      return next();
-    });
 
     // TODO: move this into `@ladjs/csrf`
     // csrf (with added localization support)
