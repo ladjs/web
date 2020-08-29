@@ -161,18 +161,8 @@ class Web {
       ...config
     };
 
-    const { logger } = this.config;
-
-    let storeIPAddress = false;
-
-    if (this.config.storeIPAddress)
-      storeIPAddress = new StoreIPAddress({
-        logger,
-        ...this.config.storeIPAddress
-      });
-
     const cabin = new Cabin({
-      logger,
+      logger: this.config.logger,
       ...this.config.cabin
     });
 
@@ -377,7 +367,13 @@ class Web {
     }
 
     // store the user's last ip address in the background
-    if (storeIPAddress) app.use(storeIPAddress.middleware);
+    if (this.config.storeIPAddress) {
+      const storeIPAddress = new StoreIPAddress({
+        logger: cabin,
+        ...this.config.storeIPAddress
+      });
+      app.use(storeIPAddress.middleware);
+    }
 
     // set template rendering engine
     app.use(
