@@ -171,15 +171,6 @@ class Web {
         ...this.config.storeIPAddress
       });
 
-    const meta = new Meta(this.config.meta, logger);
-    const stateHelper = new StateHelper(this.config.views.locals);
-    let i18n = false;
-    if (this.config.i18n) {
-      i18n = this.config.i18n.config
-        ? this.config.i18n
-        : new I18N({ ...this.config.i18n, logger });
-    }
-
     const cabin = new Cabin({
       logger,
       ...this.config.cabin
@@ -190,14 +181,16 @@ class Web {
 
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => {
-      ctx.logger[err.status && err.status < 500 ? 'warn' : 'error'](err);
+      const level = err.status && err.status < 500 ? 'warn' : 'error';
+      if (ctx.logger) ctx.logger[level](err);
+      else cabin[level](err);
     });
-    app.on('log', logger.log);
+    app.on('log', cabin.log);
 
     // initialize redis
     const client = new Redis(
       this.config.redis,
-      logger,
+      cabin,
       this.config.redisMonitor
     );
 
@@ -210,7 +203,7 @@ class Web {
     app.context.client = client;
 
     // override koa's undocumented error handler
-    app.context.onerror = errorHandler(this.config.cookiesKey, logger);
+    app.context.onerror = errorHandler(this.config.cookiesKey, cabin);
 
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
@@ -221,6 +214,24 @@ class Web {
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeSetup))
       this.config.hookBeforeSetup(app);
+
+    // rate limiting
+    if (this.config.rateLimit)
+      app.use(
+        ratelimit({
+          ...this.config.rateLimit,
+          db: client
+        })
+      );
+
+    // basic auth
+    if (this.config.auth) app.use(auth(this.config.auth));
+
+    // configure timeout
+    if (this.config.timeout) {
+      const timeout = new Timeout(this.config.timeout);
+      app.use(timeout.middleware);
+    }
 
     // adds request received hrtime and date symbols to request object
     // (which is used by Cabin internally to add `request.timestamp` to logs
@@ -248,32 +259,39 @@ class Web {
     }
 
     // favicons
-    app.use(favicon(this.config.favicon.path, this.config.favicon.options));
+    if (this.config.favicon)
+      app.use(favicon(this.config.favicon.path, this.config.favicon.options));
 
     // serve static assets
-    app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
+    if (this.config.buildDir && this.config.serveStatic)
+      app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
 
-    // set template rendering engine
-    app.use(
-      views(
-        this.config.views.root,
-        _.extend(this.config.views.options, this.config.views.locals)
-      )
-    );
+    // ajax request detection (sets `ctx.state.xhr` boolean)
+    app.use(isajax());
 
-    // setup localization
-    if (i18n) app.use(i18n.middleware);
+    // add dynamic view helpers
+    const stateHelper = new StateHelper(this.config.views.locals);
+    app.use(stateHelper.middleware);
 
-    if (this.config.auth) app.use(auth(this.config.auth));
+    // add support for SEO <title> and <meta name="description">
+    if (this.config.meta) {
+      const meta = new Meta(this.config.meta, cabin);
+      app.use(meta.middleware);
+    }
 
-    // rate limiting
-    if (this.config.rateLimit)
-      app.use(
-        ratelimit({
-          ...this.config.rateLimit,
-          db: client
-        })
-      );
+    // i18n
+    if (this.config.i18n) {
+      // create new @ladjs/i18n instance
+      const i18n = this.config.i18n.config
+        ? this.config.i18n
+        : new I18N({ ...this.config.i18n, logger: cabin });
+
+      // detect or redirect based off locale url
+      app.use(i18n.redirect);
+
+      // setup localization
+      app.use(i18n.middleware);
+    }
 
     // conditional-get
     app.use(conditional());
@@ -321,12 +339,6 @@ class Web {
     if (this.config.methodOverride)
       app.use(methodOverride(...this.config.methodOverride));
 
-    // ajax request detection (sets `ctx.state.xhr` boolean)
-    app.use(isajax());
-
-    // 404 handler
-    app.use(koa404Handler);
-
     // TODO: move this into `@ladjs/csrf`
     // csrf (with added localization support)
     if (this.config.csrf && process.env.NODE_ENV !== 'test') {
@@ -364,23 +376,19 @@ class Web {
       app.use(this.config.passport.session());
     }
 
-    // add dynamic view helpers
-    app.use(stateHelper.middleware);
-
-    // add support for SEO <title> and <meta name="description">
-    app.use(meta.middleware);
-
-    // configure timeout
-    if (this.config.timeout) {
-      const timeout = new Timeout(this.config.timeout);
-      app.use(timeout.middleware);
-    }
-
-    // detect or redirect based off locale url
-    if (i18n) app.use(i18n.redirect);
-
     // store the user's last ip address in the background
     if (storeIPAddress) app.use(storeIPAddress.middleware);
+
+    // set template rendering engine
+    app.use(
+      views(
+        this.config.views.root,
+        _.extend(this.config.views.options, this.config.views.locals)
+      )
+    );
+
+    // 404 handler
+    app.use(koa404Handler);
 
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeRoutes))
