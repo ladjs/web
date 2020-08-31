@@ -99,6 +99,8 @@ class Web {
       cacheResponses: false,
 
       genSid() {
+        // <https://github.com/sindresorhus/crypto-random-string/issues/28>
+        // return cryptoRandomString.async({ length: 32 });
         return cryptoRandomString({ length: 32 });
       },
 
@@ -201,9 +203,31 @@ class Web {
     // inherit cache variable for cache-pug-templates
     app.cache = boolean(this.config.views.locals.cache);
 
+    // adds request received hrtime and date symbols to request object
+    // (which is used by Cabin internally to add `request.timestamp` to logs
+    app.use(requestReceived);
+
+    // configure timeout
+    if (this.config.timeout) {
+      const timeout = new Timeout(this.config.timeout);
+      app.use(timeout.middleware);
+    }
+
+    // adds `X-Response-Time` header to responses
+    app.use(koaConnect(responseTime()));
+
+    // adds or re-uses `X-Request-Id` header
+    app.use(koaConnect(requestId()));
+
+    // add cabin middleware
+    app.use(cabin.middleware);
+
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeSetup))
       this.config.hookBeforeSetup(app);
+
+    // basic auth
+    if (this.config.auth) app.use(auth(this.config.auth));
 
     // rate limiting
     if (this.config.rateLimit)
@@ -214,27 +238,34 @@ class Web {
         })
       );
 
-    // basic auth
-    if (this.config.auth) app.use(auth(this.config.auth));
+    // remove trailing slashes
+    app.use(removeTrailingSlashes());
 
-    // configure timeout
-    if (this.config.timeout) {
-      const timeout = new Timeout(this.config.timeout);
-      app.use(timeout.middleware);
+    // i18n
+    if (this.config.i18n) {
+      // create new @ladjs/i18n instance
+      const i18n = this.config.i18n.config
+        ? this.config.i18n
+        : new I18N({ ...this.config.i18n, logger: cabin });
+
+      // setup localization (must come before `i18n.redirect`)
+      app.use(i18n.middleware);
+
+      // detect or redirect based off locale url
+      app.use(i18n.redirect);
     }
 
-    // adds request received hrtime and date symbols to request object
-    // (which is used by Cabin internally to add `request.timestamp` to logs
-    app.use(requestReceived);
+    // conditional-get
+    app.use(conditional());
 
-    // adds `X-Response-Time` header to responses
-    app.use(koaConnect(responseTime()));
+    // etag
+    app.use(etag());
 
-    // adds or re-uses `X-Request-Id` header
-    app.use(koaConnect(requestId()));
+    // cors
+    if (this.config.cors) app.use(cors(this.config.cors));
 
-    // add cabin middleware
-    app.use(cabin.middleware);
+    // security
+    if (this.config.helmet) app.use(helmet(this.config.helmet));
 
     // compress/gzip
     if (this.config.compress) app.use(compress(this.config.compress));
@@ -256,47 +287,30 @@ class Web {
     if (this.config.buildDir && this.config.serveStatic)
       app.use(serveStatic(this.config.buildDir, this.config.serveStatic));
 
+    // set template rendering engine
+    app.use(
+      views(
+        this.config.views.root,
+        _.extend(this.config.views.options, this.config.views.locals)
+      )
+    );
+
     // ajax request detection (sets `ctx.state.xhr` boolean)
     app.use(isajax());
 
-    // add dynamic view helpers
-    const stateHelper = new StateHelper(this.config.views.locals);
-    app.use(stateHelper.middleware);
-
+    //
     // add support for SEO <title> and <meta name="description">
+    //
+    // NOTE: this must come after ctx.render is added (via koa-views)
+    //
     if (this.config.meta) {
       const meta = new Meta(this.config.meta, cabin);
       app.use(meta.middleware);
     }
 
-    // i18n
-    if (this.config.i18n) {
-      // create new @ladjs/i18n instance
-      const i18n = this.config.i18n.config
-        ? this.config.i18n
-        : new I18N({ ...this.config.i18n, logger: cabin });
-
-      // detect or redirect based off locale url
-      app.use(i18n.redirect);
-
-      // setup localization
-      app.use(i18n.middleware);
-    }
-
-    // conditional-get
-    app.use(conditional());
-
-    // etag
-    app.use(etag());
-
-    // cors
-    if (this.config.cors) app.use(cors(this.config.cors));
-
-    // security
-    if (this.config.helmet) app.use(helmet(this.config.helmet));
-
-    // remove trailing slashes
-    app.use(removeTrailingSlashes());
+    // add dynamic view helpers
+    const stateHelper = new StateHelper(this.config.views.locals);
+    app.use(stateHelper.middleware);
 
     // session store
     app.keys = this.config.sessionKeys;
@@ -309,13 +323,13 @@ class Web {
       })
     );
 
-    // redirect loop
+    // redirect loop (must come after sessions added)
     if (this.config.redirectLoop) {
       const redirectLoop = new RedirectLoop(this.config.redirectLoop);
       app.use(redirectLoop.middleware);
     }
 
-    // flash messages
+    // flash messages (must come after sessions added)
     app.use(flash());
 
     // body parser
@@ -374,14 +388,6 @@ class Web {
       });
       app.use(storeIPAddress.middleware);
     }
-
-    // set template rendering engine
-    app.use(
-      views(
-        this.config.views.root,
-        _.extend(this.config.views.options, this.config.views.locals)
-      )
-    );
 
     // 404 handler
     app.use(koa404Handler);
