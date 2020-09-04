@@ -31,7 +31,7 @@
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "3.0.1",
     "cabin": "^8.0.7",
-    "crypto-random-string": "^3.2.0",
+    "crypto-random-string": "^3.3.0",
     "express-request-id": "^1.4.1",
     "findhit-proxywrap": "^0.3.12",
     "is-string-and-not-blank": "^0.0.2",
@@ -73,17 +73,17 @@
     "ava": "^3.12.1",
     "codecov": "^3.7.2",
     "cross-env": "^7.0.2",
-    "eslint": "^7.7.0",
+    "eslint": "^7.8.1",
     "eslint-config-xo-lass": "^1.0.3",
     "fixpack": "^3.0.6",
     "husky": "^4.2.5",
-    "lint-staged": "10.2.13",
+    "lint-staged": "10.3.0",
     "nyc": "^15.1.0",
     "pug": "^3.0.0",
     "remark-cli": "^8.0.1",
     "remark-preset-github": "^3.0.0",
     "supertest": "^4.0.2",
-    "xo": "^0.33.0"
+    "xo": "^0.33.1"
   },
   "engines": {
     "node": ">=8.3"

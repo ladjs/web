@@ -99,9 +99,7 @@ class Web {
       cacheResponses: false,
 
       genSid() {
-        // <https://github.com/sindresorhus/crypto-random-string/issues/28>
-        // return cryptoRandomString.async({ length: 32 });
-        return cryptoRandomString({ length: 32 });
+        return cryptoRandomString.async({ length: 32 });
       },
 
       methodOverride: [
