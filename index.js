@@ -239,6 +239,10 @@ class Web {
     // remove trailing slashes
     app.use(removeTrailingSlashes());
 
+    // security
+    // (needs to come before i18n so HSTS header gets added)
+    if (this.config.helmet) app.use(helmet(this.config.helmet));
+
     // i18n
     if (this.config.i18n) {
       // create new @ladjs/i18n instance
@@ -261,9 +265,6 @@ class Web {
 
     // cors
     if (this.config.cors) app.use(cors(this.config.cors));
-
-    // security
-    if (this.config.helmet) app.use(helmet(this.config.helmet));
 
     // compress/gzip
     if (this.config.compress) app.use(compress(this.config.compress));
