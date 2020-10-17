@@ -184,11 +184,6 @@ class Web {
       this.config.redisMonitor
     );
 
-    // store the server initialization
-    // so that we can gracefully exit
-    // later on with `server.close()`
-    let server;
-
     // allow middleware to access redis client
     app.context.client = client;
 
@@ -412,10 +407,10 @@ class Web {
         : http.createServer;
 
     // start server on either http or https
-    if (this.config.protocol === 'https')
-      server = createServer(this.config.ssl, app.callback());
-    // server = http2.createSecureServer(this.config.ssl, app.callback());
-    else server = createServer(app.callback());
+    const server =
+      this.config.protocol === 'https'
+        ? createServer(this.config.ssl, app.callback())
+        : createServer(app.callback());
 
     // expose app, server, client
     this.app = app;

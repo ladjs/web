@@ -50,7 +50,7 @@ See <https://github.com/ladjs/lad/blob/master/template/web.js> for the most up t
 [MIT](LICENSE) © [Nick Baugh](http://niftylettuce.com/)
 
 
-## 
+##
 
 [npm]: https://www.npmjs.com/
 
