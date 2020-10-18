@@ -81,7 +81,7 @@
     "nyc": "^15.1.0",
     "pug": "^3.0.0",
     "remark-cli": "^9.0.0",
-    "remark-preset-github": "^3.0.1",
+    "remark-preset-github": "^3.0.3",
     "supertest": "^5.0.0",
     "xo": "^0.34.0"
   },
