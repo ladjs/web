@@ -55,7 +55,14 @@ const proxiedHttp = proxyWrap.proxy(http);
 const proxiedHttps = proxyWrap.proxy(https);
 
 const defaultSrc = isSANB(process.env.WEB_HOST)
-  ? ["'self'", 'data:', `*.${process.env.WEB_HOST}:*`]
+  ? [
+      "'self'",
+      'data:',
+      `*.${process.env.WEB_HOST}`,
+      `*.${process.env.WEB_HOST}:*`,
+      process.env.WEB_HOST,
+      `${process.env.WEB_HOST}:*`
+    ]
   : null;
 const reportUri = isSANB(process.env.WEB_URL)
   ? `${process.env.WEB_URL}/report`
