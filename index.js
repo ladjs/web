@@ -83,6 +83,7 @@ class Web {
       },
       csrf: {},
       csrfIgnoredGlobs: ['/report'],
+      rateLimitIgnoredGlobs: ['/report'],
       sessionKeys: process.env.SESSION_KEYS
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
@@ -230,13 +231,23 @@ class Web {
     if (this.config.auth) app.use(auth(this.config.auth));
 
     // rate limiting
-    if (this.config.rateLimit)
-      app.use(
-        ratelimit({
+    if (this.config.rateLimit) {
+      app.use((ctx, next) => {
+        // check against ignored/whitelisted paths
+        if (
+          Array.isArray(this.config.rateLimitIgnoredGlobs) &&
+          this.config.rateLimitIgnoredGlobs.length > 0
+        ) {
+          const match = multimatch(ctx.path, this.config.rateLimitIgnoredGlobs);
+          if (Array.isArray(match) && match.length > 0) return next();
+        }
+
+        return ratelimit({
           ...this.config.rateLimit,
           db: client
-        })
-      );
+        })(ctx, next);
+      });
+    }
 
     // remove trailing slashes
     app.use(removeTrailingSlashes());
