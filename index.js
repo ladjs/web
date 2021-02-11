@@ -1,6 +1,5 @@
 const http = require('http');
-const https = require('https');
-// const http2 = require('http2');
+const http2 = require('http2');
 const path = require('path');
 const util = require('util');
 const zlib = require('zlib');
@@ -38,7 +37,6 @@ const koaConnect = require('koa-connect');
 const methodOverride = require('koa-methodoverride');
 const ms = require('ms');
 const multimatch = require('multimatch');
-const proxyWrap = require('findhit-proxywrap');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
@@ -50,9 +48,6 @@ const sharedConfig = require('@ladjs/shared-config');
 const views = require('koa-views');
 const { boolean } = require('boolean');
 const { ratelimit } = require('koa-simple-ratelimit');
-
-const proxiedHttp = proxyWrap.proxy(http);
-const proxiedHttps = proxyWrap.proxy(https);
 
 const defaultSrc = isSANB(process.env.WEB_HOST)
   ? [
@@ -415,20 +410,11 @@ class Web {
       else app.use(this.config.routes);
     }
 
-    const createServer =
-      this.config.protocol === 'https'
-        ? this.config.proxyProtocol
-          ? proxiedHttps.createServer
-          : https.createServer
-        : this.config.proxyProtocol
-        ? proxiedHttp.createServer
-        : http.createServer;
-
-    // start server on either http or https
+    // start server on either http or http2
     const server =
       this.config.protocol === 'https'
-        ? createServer(this.config.ssl, app.callback())
-        : createServer(app.callback());
+        ? http2.createSecureServer(this.config.ssl, app.callback())
+        : http.createServer(app.callback());
 
     // expose app, server, client
     this.app = app;
