@@ -64,8 +64,7 @@
     "ms": "^2.1.3",
     "multimatch": "^5.0.0",
     "request-received": "^0.0.3",
-    "response-time": "^2.3.2",
-    "spdy": "^4.0.2"
+    "response-time": "^2.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

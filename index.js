@@ -1,5 +1,5 @@
 const http = require('http');
-const spdy = require('spdy');
+const http2 = require('http2');
 const path = require('path');
 const util = require('util');
 const zlib = require('zlib');
@@ -410,10 +410,10 @@ class Web {
       else app.use(this.config.routes);
     }
 
-    // start server on either http or spdy
+    // start server on either http or http2
     const server =
       this.config.protocol === 'https'
-        ? spdy.createServer(this.config.ssl, app.callback())
+        ? http2.createSecureServer(this.config.ssl, app.callback())
         : http.createServer(app.callback());
 
     // expose app, server, client
