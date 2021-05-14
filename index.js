@@ -326,7 +326,8 @@ class Web {
         store: redisStore({ client }),
         key: this.config.cookiesKey,
         cookie: this.config.cookies,
-        genSid: this.config.genSid
+        genSid: this.config.genSid,
+        ...this.config.session
       })
     );
 
