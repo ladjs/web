@@ -59,7 +59,7 @@
     "koa-redirect-loop": "^0.0.3",
     "koa-redis": "^4.0.1",
     "koa-simple-ratelimit": "^5.1.1",
-    "koa-views": "^7.0.1",
+    "koa-views": "^8.0.0",
     "lodash": "^4.17.21",
     "ms": "^2.1.3",
     "multimatch": "5",
