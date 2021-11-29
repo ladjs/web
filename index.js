@@ -304,6 +304,10 @@ class Web {
 
     // ajax request detection (sets `ctx.state.xhr` boolean)
     app.use(isajax());
+    app.use((ctx, next) => {
+      if (ctx.state.xhr) ctx.response.vary('Accept');
+      return next();
+    });
 
     //
     // add support for SEO <title> and <meta name="description">
