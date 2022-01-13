@@ -31,7 +31,7 @@
     "@ladjs/state-helper": "^1.0.0",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "^3.1.4",
-    "cabin": "^9.1.0",
+    "cabin": "^9.1.1",
     "crypto-random-string": "3",
     "express-request-id": "^1.4.1",
     "is-string-and-not-blank": "^0.0.2",
