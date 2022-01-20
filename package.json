@@ -114,6 +114,9 @@
   ],
   "license": "MIT",
   "main": "index.js",
+  "peerDependencies": {
+    "@ladjs/store-sessions": "https://github.com/ladjs/store-sessions"
+  },
   "prettier": {
     "singleQuote": true,
     "bracketSpacing": true,

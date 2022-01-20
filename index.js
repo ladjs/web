@@ -16,6 +16,7 @@ const RedirectLoop = require('koa-redirect-loop');
 const Redis = require('@ladjs/redis');
 const StateHelper = require('@ladjs/state-helper');
 const StoreIPAddress = require('@ladjs/store-ip-address');
+const StoreSessions = require('@ladjs/store-sessions');
 const Timeout = require('koa-better-timeout');
 const _ = require('lodash');
 const auth = require('koa-basic-auth');
@@ -161,6 +162,9 @@ class Web {
           }
         }
       },
+
+      // https://github.com/ladjs/store-sessions
+      storeSessions: {},
 
       ...config
     };
@@ -396,6 +400,12 @@ class Web {
         ...this.config.storeIPAddress
       });
       app.use(storeIPAddress.middleware);
+    }
+
+    // store the user's session in the background
+    if (this.config.storeSessions) {
+      const storeSessions = new StoreSessions(this.config.storeSessions);
+      app.use(storeSessions.middleware);
     }
 
     // 404 handler
