@@ -22,7 +22,7 @@
   "dependencies": {
     "@hapi/boom": "^9.1.4",
     "@koa/router": "^10.1.1",
-    "@ladjs/i18n": "^7.2.4",
+    "@ladjs/i18n": "^7.2.6",
     "@ladjs/koa-better-static": "^2.0.1",
     "@ladjs/koa-cache-responses": "^0.0.3",
     "@ladjs/koa-isajax": "^2.0.0",
