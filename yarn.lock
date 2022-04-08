@@ -1061,10 +1061,10 @@ ava@^4.0.1:
     write-file-atomic "^3.0.3"
     yargs "^17.3.1"
 
-axe@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/axe/-/axe-8.1.1.tgz#97cfae1511fbf8da1d3bd8fcaa34d74beb516f85"
-  integrity sha512-xltWkykCHhNbzreCtBe/w68Z5TbfRNqDlIZwxWr1W2hbsU5OU0VMpJvgOvluGiEWMaTpL3VMJQ3TUTmox1NsbA==
+axe@^8.1.2:
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/axe/-/axe-8.1.2.tgz#9c4fac50e3577ffafe9b4a22ced40ca47bdd5ea5"
+  integrity sha512-6DuhuYO6Pq482M/7Xt8/cxfxarX9EyOn0jHt1MWPmUrAOdW2SnrqHQfRmZycos4lfmACdXKC6I6uQu5+nsT+rQ==
   dependencies:
     "@ladjs/format-util" "^1.0.4"
     boolean "^3.1.4"
@@ -1195,13 +1195,13 @@ bytes@3.1.1, bytes@^3.0.0, bytes@^3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.1.tgz#3f018291cb4cbad9accb6e6970bca9c8889e879a"
   integrity sha512-dWe4nWO/ruEOY7HkUJ5gFt1DCFV9zPRoJr8pV0/ASQermOZjtq8jMjOprC0Kd10GLN+l7xaUPvxzJFWtxGu8Fg==
 
-cabin@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/cabin/-/cabin-9.1.1.tgz#cac6e815b1da4b18e122b0ab8e700648d161d4da"
-  integrity sha512-E0PT6qRM2ZSLGEs9yHxuFPLS7xxyGM8QjzQx2zOagpilavPJH2/hFOw3WJocNfnuT+Bb1IzaZLXiIx3bklEgFA==
+cabin@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/cabin/-/cabin-9.1.2.tgz#6218188f2ad0bfe683e37d9d87a6c29c06bfd17e"
+  integrity sha512-qCiJYmPdB1OcGybQxhKzEAHpQZ1+aJFt1KQqAHDQFZ801Va68uU/Gcb3jRHY+PPKWtRUjBuuo2FrU1De7GLZow==
   dependencies:
     ansi-colors "^4.1.1"
-    axe "^8.1.1"
+    axe "^8.1.2"
     clf-date "^0.2.0"
     iserror "^0.0.2"
     ms "^2.1.3"
