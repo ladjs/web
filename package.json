@@ -20,9 +20,9 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "@hapi/boom": "^9.1.4",
+    "@hapi/boom": "^10.0.0",
     "@koa/router": "^10.1.1",
-    "@ladjs/i18n": "^7.2.4",
+    "@ladjs/i18n": "^7.2.6",
     "@ladjs/koa-better-static": "^2.0.1",
     "@ladjs/koa-cache-responses": "^0.0.3",
     "@ladjs/koa-isajax": "^2.0.0",
@@ -30,10 +30,10 @@
     "@ladjs/shared-config": "^6.0.0",
     "@ladjs/state-helper": "^1.0.0",
     "@ladjs/store-ip-address": "^0.0.7",
-    "boolean": "^3.1.4",
-    "cabin": "^9.1.1",
+    "boolean": "^3.2.0",
+    "cabin": "^9.1.2",
     "crypto-random-string": "3",
-    "express-request-id": "^1.4.1",
+    "express-request-id": "1.4.1",
     "is-string-and-not-blank": "^0.0.2",
     "kcors": "^2.2.2",
     "koa": "^2.13.4",
@@ -67,22 +67,22 @@
     "response-time": "^2.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.0.2",
-    "@commitlint/config-conventional": "^16.0.0",
-    "ava": "^4.0.1",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
+    "ava": "^4.2.0",
     "codecov": "^3.8.3",
     "cross-env": "^7.0.3",
-    "eslint": "^8.6.0",
+    "eslint": "^8.14.0",
     "eslint-config-xo-lass": "^1.0.6",
     "fixpack": "^4.0.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.1.7",
+    "lint-staged": "^12.4.1",
     "nyc": "^15.1.0",
     "pug": "^3.0.2",
     "remark-cli": "^10.0.1",
     "remark-preset-github": "^4.0.1",
-    "supertest": "^6.2.1",
-    "xo": "^0.47.0"
+    "supertest": "^6.2.3",
+    "xo": "^0.48.0"
   },
   "engines": {
     "node": ">=10.10.0"
