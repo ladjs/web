@@ -66,7 +66,7 @@ const reportUri = isSANB(process.env.WEB_URL)
 
 class Web {
   // eslint-disable-next-line complexity
-  constructor(config) {
+  constructor(config, client) {
     this.config = {
       ...sharedConfig('WEB'),
       meta: {},
@@ -170,8 +170,16 @@ class Web {
       ...this.config.cabin
     });
 
+    // initialize redis
+    this.client = client
+      ? client
+      : new Redis(this.config.redis, cabin, this.config.redisMonitor);
+
     // initialize the app
     const app = new Koa();
+
+    // allow middleware to access redis client
+    app.context.client = this.client;
 
     // listen for error and log events emitted by app
     app.on('error', (err, ctx) => {
@@ -180,16 +188,6 @@ class Web {
       else cabin[level](err);
     });
     app.on('log', cabin.log);
-
-    // initialize redis
-    const client = new Redis(
-      this.config.redis,
-      cabin,
-      this.config.redisMonitor
-    );
-
-    // allow middleware to access redis client
-    app.context.client = client;
 
     // override koa's undocumented error handler
     app.context.onerror = errorHandler(this.config.cookiesKey, cabin);
@@ -240,7 +238,7 @@ class Web {
 
         return ratelimit({
           ...this.config.rateLimit,
-          db: client
+          db: this.client
         })(ctx, next);
       });
     }
@@ -324,7 +322,7 @@ class Web {
     app.keys = this.config.sessionKeys;
     app.use(
       session({
-        store: redisStore({ client }),
+        store: redisStore({ client: this.client }),
         key: this.config.cookiesKey,
         cookie: this.config.cookies,
         genSid: this.config.genSid,
@@ -413,15 +411,13 @@ class Web {
     }
 
     // start server on either http or http2
-    const server =
+    this.server =
       this.config.protocol === 'https'
         ? http2.createSecureServer(this.config.ssl, app.callback())
         : http.createServer(app.callback());
 
-    // expose app, server, client
+    // expose the app
     this.app = app;
-    this.server = server;
-    this.client = client;
 
     // bind listen/close to this
     this.listen = this.listen.bind(this);
