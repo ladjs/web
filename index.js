@@ -38,6 +38,7 @@ const koaConnect = require('koa-connect');
 const methodOverride = require('koa-methodoverride');
 const ms = require('ms');
 const multimatch = require('multimatch');
+const ratelimit = require('@ladjs/koa-simple-ratelimit');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
@@ -48,7 +49,6 @@ const session = require('koa-generic-session');
 const sharedConfig = require('@ladjs/shared-config');
 const views = require('koa-views');
 const { boolean } = require('boolean');
-const { ratelimit } = require('koa-simple-ratelimit');
 
 const defaultSrc = isSANB(process.env.WEB_HOST)
   ? [
@@ -60,9 +60,13 @@ const defaultSrc = isSANB(process.env.WEB_HOST)
       `${process.env.WEB_HOST}:*`
     ]
   : null;
+
 const reportUri = isSANB(process.env.WEB_URL)
   ? `${process.env.WEB_URL}/report`
   : null;
+
+const INVALID_TOKEN_MESSAGE = 'Invalid CSRF token.';
+const RATE_LIMIT_EXCEEDED = `Rate limit exceeded, retry in %s.`;
 
 class Web {
   // eslint-disable-next-line complexity
@@ -238,7 +242,14 @@ class Web {
 
         return ratelimit({
           ...this.config.rateLimit,
-          db: this.client
+          db: this.client,
+          logger: cabin,
+          errorMessage(exp) {
+            const fn =
+              typeof ctx.request.t === 'function' ? ctx.request.t : util.format;
+            // NOTE: ms does not support i18n localization
+            return fn(RATE_LIMIT_EXCEEDED, ms(exp, { long: true }));
+          }
         })(ctx, next);
       });
     }
@@ -355,7 +366,10 @@ class Web {
     if (this.config.csrf && process.env.NODE_ENV !== 'test') {
       const csrf = new CSRF({
         ...this.config.csrf,
-        invalidTokenMessage: (ctx) => ctx.request.t('Invalid CSRF token')
+        invalidTokenMessage: (ctx) =>
+          typeof ctx.request.t === 'function'
+            ? ctx.request.t(INVALID_TOKEN_MESSAGE)
+            : INVALID_TOKEN_MESSAGE
       });
       app.use(async (ctx, next) => {
         // check against ignored/whitelisted redirect middleware paths
