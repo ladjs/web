@@ -12,6 +12,7 @@ const CacheResponses = require('@ladjs/koa-cache-responses');
 const I18N = require('@ladjs/i18n');
 const Koa = require('koa');
 const Meta = require('koa-meta');
+const Passport = require('@ladjs/passport');
 const RedirectLoop = require('koa-redirect-loop');
 const Redis = require('@ladjs/redis');
 const StateHelper = require('@ladjs/state-helper');
@@ -70,7 +71,7 @@ const RATE_LIMIT_EXCEEDED = `Rate limit exceeded, retry in %s.`;
 
 class Web {
   // eslint-disable-next-line complexity
-  constructor(config, client) {
+  constructor(config, Users) {
     this.config = {
       ...sharedConfig('WEB'),
       meta: {},
@@ -169,38 +170,50 @@ class Web {
       ...config
     };
 
-    const cabin = new Cabin({
-      logger: this.config.logger,
-      ...this.config.cabin
-    });
-
-    // initialize redis
-    this.client = client
-      ? client
-      : new Redis(this.config.redis, cabin, this.config.redisMonitor);
-
     // initialize the app
     const app = new Koa();
-
-    // allow middleware to access redis client
-    app.context.client = this.client;
-
-    // listen for error and log events emitted by app
-    app.on('error', (err, ctx) => {
-      const level = err.status && err.status < 500 ? 'warn' : 'error';
-      if (ctx.logger) ctx.logger[level](err);
-      else cabin[level](err);
-    });
-    app.on('log', cabin.log);
-
-    // override koa's undocumented error handler
-    app.context.onerror = errorHandler(this.config.cookiesKey, cabin);
 
     // only trust proxy if enabled
     app.proxy = boolean(process.env.TRUST_PROXY);
 
     // inherit cache variable for cache-pug-templates
     app.cache = boolean(this.config.views.locals.cache);
+
+    // initialize cabin
+    this.logger = _.isPlainObject(this.config.logger)
+      ? new Cabin(this.config.logger)
+      : this.config.logger instanceof Cabin
+      ? this.config.logger
+      : new Cabin({
+          logger: this.config.logger ? this.config.logger : console
+        });
+    app.context.logger = this.logger;
+
+    // initialize redis
+    this.client =
+      this.config.redis === false
+        ? false
+        : _.isPlainObject(this.config.redis)
+        ? new Redis(this.config.redis, this.logger, this.config.redisMonitor)
+        : this.config.redis;
+    app.context.client = this.client;
+
+    // expose passport
+    this.passport =
+      this.config.passport === false
+        ? false
+        : _.isPlainObject(this.config.passport)
+        ? new Passport(this.config.passport, Users)
+        : this.config.passport;
+    app.context.passport = this.passport;
+
+    // listen for errors emitted by app
+    app.on('error', (err, ctx) => {
+      ctx.logger[err.status && err.status < 500 ? 'warn' : 'error'](err);
+    });
+
+    // override koa's undocumented error handler
+    app.context.onerror = errorHandler(this.config.cookiesKey);
 
     // adds request received hrtime and date symbols to request object
     // (which is used by Cabin internally to add `request.timestamp` to logs
@@ -219,7 +232,7 @@ class Web {
     app.use(koaConnect(requestId()));
 
     // add cabin middleware
-    app.use(cabin.middleware);
+    app.use(this.logger.middleware);
 
     // allow before hooks to get setup
     if (_.isFunction(this.config.hookBeforeSetup))
@@ -243,7 +256,7 @@ class Web {
         return ratelimit({
           ...this.config.rateLimit,
           db: this.client,
-          logger: cabin,
+          logger: this.logger,
           errorMessage(exp) {
             const fn =
               typeof ctx.request.t === 'function' ? ctx.request.t : util.format;
@@ -266,7 +279,7 @@ class Web {
       // create new @ladjs/i18n instance
       const i18n = this.config.i18n.config
         ? this.config.i18n
-        : new I18N({ ...this.config.i18n, logger: cabin });
+        : new I18N({ ...this.config.i18n, logger: this.logger });
 
       // setup localization (must come before `i18n.redirect`)
       app.use(i18n.middleware);
@@ -321,7 +334,7 @@ class Web {
     // NOTE: this must come after ctx.render is added (via koa-views)
     //
     if (this.config.meta) {
-      const meta = new Meta(this.config.meta, cabin);
+      const meta = new Meta(this.config.meta, this.logger);
       app.use(meta.middleware);
     }
 
@@ -396,15 +409,15 @@ class Web {
     }
 
     // passport
-    if (this.config.passport) {
-      app.use(this.config.passport.initialize());
-      app.use(this.config.passport.session());
+    if (this.passport) {
+      app.use(this.passport.initialize());
+      app.use(this.passport.session());
     }
 
     // store the user's last ip address in the background
     if (this.config.storeIPAddress) {
       const storeIPAddress = new StoreIPAddress({
-        logger: cabin,
+        logger: this.logger,
         ...this.config.storeIPAddress
       });
       app.use(storeIPAddress.middleware);
