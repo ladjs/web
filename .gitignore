@@ -6,7 +6,7 @@ coverage
 .nyc_output
 locales/
 package-lock.json
-
+yarn.lock
 
 Thumbs.db
 tmp/
