@@ -1,4 +1,5 @@
 const Passport = require('@ladjs/passport');
+const Redis = require('ioredis-mock');
 const Router = require('@koa/router');
 const request = require('supertest');
 const test = require('ava');
@@ -13,7 +14,8 @@ test('allows custom routes', async (t) => {
   });
 
   const web = new Web({
-    routes: router.routes()
+    routes: router.routes(),
+    redis: new Redis()
   });
 
   const response = await request(web.server).get('/en');
@@ -33,7 +35,8 @@ test('default method override', async (t) => {
   });
 
   const web = new Web({
-    routes: router.routes()
+    routes: router.routes(),
+    redis: new Redis()
   });
 
   const response = await request(web.server)
@@ -46,7 +49,7 @@ test('default method override', async (t) => {
 });
 
 test('with redis instance', (t) => {
-  const api = new Web();
+  const api = new Web({ redis: new Redis() });
   t.is(typeof api.client, 'object');
   t.is(typeof api.app.context.client, 'object');
 });
@@ -59,13 +62,13 @@ test('without redis instance', (t) => {
 
 test('with passport instance', (t) => {
   const passport = new Passport({});
-  const api = new Web({ passport });
+  const api = new Web({ passport, redis: new Redis() });
   t.is(typeof api.passport, 'object');
   t.is(typeof api.app.context.passport, 'object');
 });
 
 test('without passport instance', (t) => {
-  const api = new Web();
+  const api = new Web({ redis: new Redis() });
   t.is(api.passport, false);
   t.is(api.app.context.passport, false);
 });
