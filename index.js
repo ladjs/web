@@ -95,10 +95,10 @@ class Web {
       },
       buildDir: path.resolve('./build'),
 
-      // <https://github.com/niftylettuce/koa-better-static#options>
+      // <https://github.com/ladjs/koa-better-static#options>
       serveStatic: {},
 
-      // <https://github.com/niftylettuce/koa-redirect-loop>
+      // <https://github.com/ladjs/koa-redirect-loop>
       redirectLoop: {},
 
       // <https://github.com/koajs/cash>
@@ -356,7 +356,10 @@ class Web {
 
     // redirect loop (must come after sessions added)
     if (this.config.redirectLoop) {
-      const redirectLoop = new RedirectLoop(this.config.redirectLoop);
+      const redirectLoop = new RedirectLoop({
+        ...this.config.redirectLoop,
+        logger: this.logger
+      });
       app.use(redirectLoop.middleware);
     }
 
@@ -417,8 +420,8 @@ class Web {
     // store the user's last ip address in the background
     if (this.config.storeIPAddress) {
       const storeIPAddress = new StoreIPAddress({
-        logger: this.logger,
-        ...this.config.storeIPAddress
+        ...this.config.storeIPAddress,
+        logger: this.logger
       });
       app.use(storeIPAddress.middleware);
     }
