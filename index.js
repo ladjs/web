@@ -386,6 +386,7 @@ class Web {
       } catch (err) {
         // this would indicate that redis is down
         ctx.logger.error(err);
+        delete ctx.session;
       }
 
       return next();
