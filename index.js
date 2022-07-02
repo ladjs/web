@@ -358,7 +358,7 @@ class Web {
 
       // add limited `ctx` object to the state for views
       ctx.state.ctx = {};
-      ctx.state.ctx.get = ctx.get;
+      ctx.state.ctx.get = ctx.get.bind(ctx);
       ctx.state.ctx.locale = ctx.locale;
       ctx.state.ctx.params = ctx.params;
       ctx.state.ctx.path = ctx.path;
