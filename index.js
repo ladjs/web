@@ -38,7 +38,6 @@ const koaCash = require('koa-cash');
 const koaConnect = require('koa-connect');
 const methodOverride = require('koa-methodoverride');
 const ms = require('ms');
-const multimatch = require('multimatch');
 const ratelimit = require('@ladjs/koa-simple-ratelimit');
 const redisStore = require('koa-redis');
 const removeTrailingSlashes = require('koa-no-trailing-slash');
@@ -67,13 +66,13 @@ const reportUri = isSANB(process.env.WEB_URL)
   : null;
 
 const INVALID_TOKEN_MESSAGE = 'Invalid CSRF token.';
-const RATE_LIMIT_EXCEEDED = `Rate limit exceeded, retry in %s.`;
 
 class Web {
   // eslint-disable-next-line complexity
   constructor(config, Users) {
+    const sharedWebConfig = sharedConfig('WEB');
     this.config = {
-      ...sharedConfig('WEB'),
+      ...sharedWebConfig,
       meta: {},
       views: {
         root: path.resolve('./app/views'),
@@ -82,9 +81,23 @@ class Web {
           extension: 'pug'
         }
       },
-      csrf: {},
-      csrfIgnoredGlobs: ['/report'],
-      rateLimitIgnoredGlobs: ['/report'],
+      csrf: {
+        ...sharedWebConfig.csrf,
+        ignoredPathGlobs: ['/report'],
+        errorHandler(ctx) {
+          return ctx.throw(
+            Boom.forbidden(
+              typeof ctx.request.t === 'function'
+                ? ctx.request.t(INVALID_TOKEN_MESSAGE)
+                : INVALID_TOKEN_MESSAGE
+            )
+          );
+        }
+      },
+      rateLimit: {
+        ...sharedWebConfig.rateLimit,
+        ignoredPathGlobs: ['/report']
+      },
       sessionKeys: process.env.SESSION_KEYS
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
@@ -242,30 +255,14 @@ class Web {
     if (this.config.auth) app.use(auth(this.config.auth));
 
     // rate limiting
-    if (this.config.rateLimit) {
-      app.use((ctx, next) => {
-        // check against ignored/whitelisted paths
-        if (
-          Array.isArray(this.config.rateLimitIgnoredGlobs) &&
-          this.config.rateLimitIgnoredGlobs.length > 0
-        ) {
-          const match = multimatch(ctx.path, this.config.rateLimitIgnoredGlobs);
-          if (Array.isArray(match) && match.length > 0) return next();
-        }
-
-        return ratelimit({
+    if (this.config.rateLimit)
+      app.use(
+        ratelimit({
           ...this.config.rateLimit,
           db: this.client,
-          logger: this.logger,
-          errorMessage(exp) {
-            const fn =
-              typeof ctx.request.t === 'function' ? ctx.request.t : util.format;
-            // NOTE: ms does not support i18n localization
-            return fn(RATE_LIMIT_EXCEEDED, ms(exp, { long: true }));
-          }
-        })(ctx, next);
-      });
-    }
+          logger: this.logger
+        })
+      );
 
     // remove trailing slashes
     app.use(removeTrailingSlashes());
@@ -365,7 +362,6 @@ class Web {
       ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
       ctx.state.ctx.query = ctx.query;
       ctx.state.ctx.sessionId = ctx.sessionId;
-      ctx.state.ctx.translate = ctx.translate;
       ctx.state.ctx.url = ctx.url;
 
       return next();
@@ -406,31 +402,13 @@ class Web {
     if (this.config.methodOverride)
       app.use(methodOverride(...this.config.methodOverride));
 
-    // TODO: move this into `@ladjs/csrf`
     // csrf (with added localization support)
     if (this.config.csrf && process.env.NODE_ENV !== 'test') {
-      const csrf = new CSRF({
-        ...this.config.csrf,
-        invalidTokenMessage: (ctx) =>
-          typeof ctx.request.t === 'function'
-            ? ctx.request.t(INVALID_TOKEN_MESSAGE)
-            : INVALID_TOKEN_MESSAGE
-      });
+      const csrf = new CSRF(this.config.csrf);
       app.use(async (ctx, next) => {
-        // check against ignored/whitelisted redirect middleware paths
-        if (
-          Array.isArray(this.config.csrfIgnoredGlobs) &&
-          this.config.csrfIgnoredGlobs.length > 0
-        ) {
-          const match = multimatch(ctx.path, this.config.csrfIgnoredGlobs);
-          if (Array.isArray(match) && match.length > 0) return next();
-        }
-
         try {
           await csrf(ctx, next);
-          ctx.state.csrf = ctx.csrf;
         } catch (err) {
-          ctx.logger.error(err);
           let error = err;
           if (err.name && err.name === 'ForbiddenError')
             error = Boom.forbidden(err.message);
