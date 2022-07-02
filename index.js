@@ -364,7 +364,6 @@ class Web {
       ctx.state.ctx.path = ctx.path;
       ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
       ctx.state.ctx.query = ctx.query;
-      ctx.state.ctx.session = ctx.session;
       ctx.state.ctx.sessionId = ctx.sessionId;
       ctx.state.ctx.translate = ctx.translate;
       ctx.state.ctx.url = ctx.url;
@@ -374,22 +373,15 @@ class Web {
 
     // session store
     app.keys = this.config.sessionKeys;
-    app.use(async (ctx, next) => {
-      try {
-        await session({
-          store: redisStore({ client: this.client }),
-          key: this.config.cookiesKey,
-          cookie: this.config.cookies,
-          genSid: this.config.genSid,
-          ...this.config.session
-        })(ctx, () => Promise.resolve());
-      } catch (err) {
-        // this would indicate that redis is down
-        ctx.logger.error(err);
-      }
-
-      return next();
-    });
+    app.use(
+      session({
+        store: redisStore({ client: this.client }),
+        key: this.config.cookiesKey,
+        cookie: this.config.cookies,
+        genSid: this.config.genSid,
+        ...this.config.session
+      })
+    );
 
     // redirect loop (must come after sessions added)
     if (this.config.redirectLoop) {
@@ -439,9 +431,7 @@ class Web {
         } catch (err) {
           ctx.logger.error(err);
           let error = err;
-          // this would indicate that redis is down
-          if (!ctx.session) error = Boom.clientTimeout();
-          else if (err.name && err.name === 'ForbiddenError')
+          if (err.name && err.name === 'ForbiddenError')
             error = Boom.forbidden(err.message);
 
           ctx.throw(error);
