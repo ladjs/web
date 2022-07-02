@@ -428,6 +428,7 @@ class Web {
 
         try {
           await csrf(ctx, next);
+          ctx.state.csrf = ctx.csrf;
         } catch (err) {
           ctx.logger.error(err);
           let error = err;

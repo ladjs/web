@@ -20,7 +20,7 @@
     "@ladjs/koa-simple-ratelimit": "^3.0.0",
     "@ladjs/redis": "^1.0.7",
     "@ladjs/shared-config": "^7.0.3",
-    "@ladjs/state-helper": "^2.0.1",
+    "@ladjs/state-helper": "^2.0.2",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "^3.2.0",
     "cabin": "^9.1.2",
