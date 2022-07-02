@@ -344,15 +344,22 @@ class Web {
 
     // session store
     app.keys = this.config.sessionKeys;
-    app.use(
-      session({
-        store: redisStore({ client: this.client }),
-        key: this.config.cookiesKey,
-        cookie: this.config.cookies,
-        genSid: this.config.genSid,
-        ...this.config.session
-      })
-    );
+    app.use(async (ctx, next) => {
+      try {
+        await session({
+          store: redisStore({ client: this.client }),
+          key: this.config.cookiesKey,
+          cookie: this.config.cookies,
+          genSid: this.config.genSid,
+          ...this.config.session
+        })(ctx, () => Promise.resolve());
+      } catch (err) {
+        // this would indicate that redis is down
+        ctx.logger.error(err);
+      }
+
+      return next();
+    });
 
     // redirect loop (must come after sessions added)
     if (this.config.redirectLoop) {
@@ -400,11 +407,12 @@ class Web {
         try {
           await csrf(ctx, next);
         } catch (err) {
+          ctx.logger.error(err);
           let error = err;
-          if (err.name && err.name === 'ForbiddenError') {
+          // this would indicate that redis is down
+          if (!ctx.session) error = Boom.clientTimeout();
+          else if (err.name && err.name === 'ForbiddenError')
             error = Boom.forbidden(err.message);
-            if (err.stack) error.stack = err.stack;
-          }
 
           ctx.throw(error);
         }
