@@ -371,11 +371,11 @@ class Web {
     app.keys = this.config.sessionKeys;
     app.use(
       session({
+        ...this.config.session,
         store: redisStore({ client: this.client }),
         key: this.config.cookiesKey,
         cookie: this.config.cookies,
-        genSid: this.config.genSid,
-        ...this.config.session
+        genSid: this.config.genSid
       })
     );
 
