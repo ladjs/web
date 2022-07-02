@@ -342,6 +342,36 @@ class Web {
     const stateHelper = new StateHelper(this.config.views.locals);
     app.use(stateHelper.middleware);
 
+    // add specific locals
+    app.use((ctx, next) => {
+      // passport-related helpers (e.g. for rendering log in with X buttons)
+      ctx.state.passport = ctx.passport ? {} : false;
+      if (
+        ctx.passport &&
+        ctx.passport.config &&
+        ctx.passport.config.providers
+      ) {
+        for (const key of Object.keys(ctx.passport.config.providers)) {
+          ctx.state.passport[key] = boolean(ctx.passport.config.providers[key]);
+        }
+      }
+
+      // add limited `ctx` object to the state for views
+      ctx.state.ctx = {};
+      ctx.state.ctx.get = ctx.get;
+      ctx.state.ctx.locale = ctx.locale;
+      ctx.state.ctx.params = ctx.params;
+      ctx.state.ctx.path = ctx.path;
+      ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
+      ctx.state.ctx.query = ctx.query;
+      ctx.state.ctx.session = ctx.session;
+      ctx.state.ctx.sessionId = ctx.sessionId;
+      ctx.state.ctx.translate = ctx.translate;
+      ctx.state.ctx.url = ctx.url;
+
+      return next();
+    });
+
     // session store
     app.keys = this.config.sessionKeys;
     app.use(async (ctx, next) => {
