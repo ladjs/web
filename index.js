@@ -357,7 +357,6 @@ class Web {
       ctx.state.ctx = {};
       ctx.state.ctx.get = ctx.get.bind(ctx);
       ctx.state.ctx.locale = ctx.locale;
-      ctx.state.ctx.params = ctx.params;
       ctx.state.ctx.path = ctx.path;
       ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
       ctx.state.ctx.query = ctx.query;
