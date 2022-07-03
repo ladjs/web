@@ -226,7 +226,7 @@ class Web {
     });
 
     // override koa's undocumented error handler
-    app.context.onerror = errorHandler();
+    app.context.onerror = errorHandler(this.config.cookiesKey);
 
     // adds request received hrtime and date symbols to request object
     // (which is used by Cabin internally to add `request.timestamp` to logs
