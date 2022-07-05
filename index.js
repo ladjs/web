@@ -254,16 +254,6 @@ class Web {
     // basic auth
     if (this.config.auth) app.use(auth(this.config.auth));
 
-    // rate limiting
-    if (this.config.rateLimit)
-      app.use(
-        ratelimit({
-          ...this.config.rateLimit,
-          db: this.client,
-          logger: this.logger
-        })
-      );
-
     // remove trailing slashes
     app.use(removeTrailingSlashes());
 
@@ -371,7 +361,11 @@ class Web {
     app.use(
       session({
         ...this.config.session,
-        store: redisStore({ client: this.client }),
+        ...(this.client
+          ? {
+              store: redisStore({ client: this.client })
+            }
+          : {}),
         key: this.config.cookiesKey,
         cookie: this.config.cookies,
         genSid: this.config.genSid
@@ -422,6 +416,16 @@ class Web {
       app.use(this.passport.initialize());
       app.use(this.passport.session());
     }
+
+    // rate limiting
+    if (this.client && this.config.rateLimit)
+      app.use(
+        ratelimit({
+          ...this.config.rateLimit,
+          db: this.client,
+          logger: this.logger
+        })
+      );
 
     // store the user's last ip address in the background
     if (this.config.storeIPAddress) {
