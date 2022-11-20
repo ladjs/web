@@ -1,9 +1,9 @@
-const process = require('process');
-const http = require('http');
-const http2 = require('http2');
-const path = require('path');
-const util = require('util');
-const zlib = require('zlib');
+const process = require('node:process');
+const http = require('node:http');
+const http2 = require('node:http2');
+const path = require('node:path');
+const util = require('node:util');
+const zlib = require('node:zlib');
 
 const Boom = require('@hapi/boom');
 const CSRF = require('koa-csrf');
@@ -141,7 +141,7 @@ class Web {
                 imgSrc: defaultSrc,
                 styleSrc: [...defaultSrc, "'unsafe-inline'"],
                 scriptSrc: [...defaultSrc, "'unsafe-inline'"],
-                reportUri: reportUri ? reportUri : null
+                reportUri: reportUri || null
               }
             }
           : null,
@@ -198,7 +198,7 @@ class Web {
       : this.config.logger instanceof Cabin
       ? this.config.logger
       : new Cabin({
-          logger: this.config.logger ? this.config.logger : console
+          logger: this.config.logger || console
         });
     app.context.logger = this.logger;
 
