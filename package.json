@@ -23,7 +23,6 @@
     "@ladjs/state-helper": "^3.0.1",
     "@ladjs/store-ip-address": "^0.0.7",
     "boolean": "^3.2.0",
-    "cabin": "^9.1.2",
     "crypto-random-string": "3",
     "express-request-id": "1.4.1",
     "is-string-and-not-blank": "^0.0.2",
@@ -61,6 +60,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@ladjs/passport": "^5.0.3",
     "ava": "^4.3.1",
+    "cabin": "^10.0.4",
     "cross-env": "^7.0.3",
     "eslint": "^8.20.0",
     "eslint-config-xo-lass": "^2.0.1",
@@ -100,6 +100,9 @@
   ],
   "license": "MIT",
   "main": "index.js",
+  "peerDependencies": {
+    "cabin": ">= 10"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ladjs/web"
