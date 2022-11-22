@@ -17,7 +17,7 @@
     "@ladjs/koa-better-static": "^2.0.1",
     "@ladjs/koa-cache-responses": "^0.0.3",
     "@ladjs/koa-isajax": "^2.0.0",
-    "@ladjs/koa-simple-ratelimit": "^4.0.2",
+    "@ladjs/koa-simple-ratelimit": "^4.1.0",
     "@ladjs/redis": "^1.0.7",
     "@ladjs/shared-config": "^8.0.0",
     "@ladjs/state-helper": "^3.0.1",
