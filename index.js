@@ -5,8 +5,6 @@ const path = require('node:path');
 const util = require('node:util');
 const zlib = require('node:zlib');
 
-const Boom = require('@hapi/boom');
-const CSRF = require('koa-csrf');
 const Cabin = require('cabin');
 const CacheResponses = require('@ladjs/koa-cache-responses');
 const I18N = require('@ladjs/i18n');
@@ -65,8 +63,6 @@ const reportUri = isSANB(process.env.WEB_URL)
   ? `${process.env.WEB_URL}/report`
   : null;
 
-const INVALID_TOKEN_MESSAGE = 'Invalid CSRF token.';
-
 class Web {
   // eslint-disable-next-line complexity
   constructor(config, Users) {
@@ -79,19 +75,6 @@ class Web {
         locals: {},
         options: {
           extension: 'pug'
-        }
-      },
-      csrf: {
-        ...sharedWebConfig.csrf,
-        ignoredPathGlobs: ['/report'],
-        errorHandler(ctx) {
-          return ctx.throw(
-            Boom.forbidden(
-              typeof ctx.request.t === 'function'
-                ? ctx.request.t(INVALID_TOKEN_MESSAGE)
-                : INVALID_TOKEN_MESSAGE
-            )
-          );
         }
       },
       rateLimit: {
@@ -367,22 +350,6 @@ class Web {
     // (e.g. `<input type="hidden" name="_method" value="PUT" />`)
     if (this.config.methodOverride)
       app.use(methodOverride(...this.config.methodOverride));
-
-    // csrf (with added localization support)
-    if (this.config.csrf && process.env.NODE_ENV !== 'test') {
-      const csrf = new CSRF(this.config.csrf);
-      app.use(async (ctx, next) => {
-        try {
-          await csrf(ctx, next);
-        } catch (err) {
-          let error = err;
-          if (err.name && err.name === 'ForbiddenError')
-            error = Boom.forbidden(err.message);
-
-          ctx.throw(error);
-        }
-      });
-    }
 
     // passport
     if (this.passport) {
