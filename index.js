@@ -128,12 +128,16 @@ class Web {
               }
             }
           : null,
+        // Expect-CT header is deprecated
+        expectCt: false,
+        /*
         expectCt: {
           enforce: true,
           // https://httpwg.org/http-extensions/expect-ct.html#maximum-max-age
           maxAge: ms('30d') / 1000,
           reportUri
         },
+        */
         // <https://hstspreload.org/>
         // <https://helmetjs.github.io/docs/hsts/#preloading-hsts-in-chrome>
         hsts: {
