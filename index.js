@@ -262,6 +262,18 @@ class Web {
       app.use(i18n.redirect);
     }
 
+    app.use((ctx, next) => {
+      // add limited `ctx` object to the state for views
+      ctx.state.ctx = {};
+      ctx.state.ctx.get = ctx.get.bind(ctx);
+      ctx.state.ctx.locale = ctx.locale;
+      ctx.state.ctx.path = ctx.path;
+      ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
+      ctx.state.ctx.query = ctx.query;
+      ctx.state.ctx.url = ctx.url;
+      return next();
+    });
+
     // conditional-get
     app.use(conditional());
 
@@ -332,6 +344,11 @@ class Web {
       })
     );
 
+    app.use((ctx, next) => {
+      ctx.state.ctx.sessionId = ctx.sessionId;
+      return next();
+    });
+
     // redirect loop (must come after sessions added)
     if (this.config.redirectLoop) {
       const redirectLoop = new RedirectLoop({
@@ -374,16 +391,6 @@ class Web {
           ctx.state.passport[key] = boolean(ctx.passport.config.providers[key]);
         }
       }
-
-      // add limited `ctx` object to the state for views
-      ctx.state.ctx = {};
-      ctx.state.ctx.get = ctx.get.bind(ctx);
-      ctx.state.ctx.locale = ctx.locale;
-      ctx.state.ctx.path = ctx.path;
-      ctx.state.ctx.pathWithoutLocale = ctx.pathWithoutLocale;
-      ctx.state.ctx.query = ctx.query;
-      ctx.state.ctx.sessionId = ctx.sessionId;
-      ctx.state.ctx.url = ctx.url;
 
       return next();
     });
