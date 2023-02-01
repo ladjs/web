@@ -198,10 +198,6 @@ class Web {
         : this.config.redis;
     app.context.client = this.client;
 
-    // allow hooks before passport to get setup
-    if (_.isFunction(this.config.hookBeforePassport))
-      this.config.hookBeforePassport(app);
-
     // expose passport
     this.passport =
       this.config.passport === false
@@ -375,6 +371,10 @@ class Web {
     // (e.g. `<input type="hidden" name="_method" value="PUT" />`)
     if (this.config.methodOverride)
       app.use(methodOverride(...this.config.methodOverride));
+
+    // allow hooks before passport to get setup
+    if (_.isFunction(this.config.hookBeforePassport))
+      this.config.hookBeforePassport(app);
 
     // passport
     if (this.passport) {
