@@ -198,6 +198,10 @@ class Web {
         : this.config.redis;
     app.context.client = this.client;
 
+    // allow hooks before passport to get setup
+    if (_.isFunction(this.config.hookBeforePassport))
+      this.config.hookBeforePassport(app);
+
     // expose passport
     this.passport =
       this.config.passport === false
