@@ -3,7 +3,6 @@ const Redis = require('ioredis-mock');
 const Router = require('@koa/router');
 const request = require('supertest');
 const test = require('ava');
-
 const Web = require('..');
 
 test('allows custom routes', async (t) => {
