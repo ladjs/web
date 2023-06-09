@@ -44,7 +44,7 @@ const responseTime = require('response-time');
 const serveStatic = require('@ladjs/koa-better-static');
 const session = require('koa-generic-session');
 const sharedConfig = require('@ladjs/shared-config');
-const views = require('koa-views');
+const views = require('@ladjs/koa-views');
 const { boolean } = require('boolean');
 
 const defaultSrc = isSANB(process.env.WEB_HOST)
