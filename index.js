@@ -37,7 +37,6 @@ const methodOverride = require('koa-methodoverride');
 const ms = require('ms');
 const ratelimit = require('@ladjs/koa-simple-ratelimit');
 const redisStore = require('koa-redis');
-const removeTrailingSlashes = require('koa-no-trailing-slash');
 const requestId = require('express-request-id');
 const requestReceived = require('request-received');
 const responseTime = require('response-time');
@@ -46,6 +45,19 @@ const session = require('koa-generic-session');
 const sharedConfig = require('@ladjs/shared-config');
 const views = require('@ladjs/koa-views');
 const { boolean } = require('boolean');
+
+// https://gist.github.com/titanism/241fc0c5f1c1a0b7cae3d97580e435fb
+function removeTrailingSlashes(ctx, next) {
+  const { path, search } = ctx.request;
+  if (path !== '/' && !path.startsWith('//') && path.slice(-1) === '/') {
+    const redirectUrl = path.slice(0, -1) + search;
+    ctx.response.status = 301;
+    ctx.redirect(redirectUrl);
+    return;
+  }
+
+  return next();
+}
 
 const defaultSrc = isSANB(process.env.WEB_HOST)
   ? [
@@ -241,7 +253,7 @@ class Web {
     if (this.config.auth) app.use(auth(this.config.auth));
 
     // remove trailing slashes
-    app.use(removeTrailingSlashes());
+    app.use(removeTrailingSlashes);
 
     // security
     // (needs to come before i18n so HSTS header gets added)
