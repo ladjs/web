@@ -75,7 +75,7 @@
     "xo": "^0.56.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "files": [
     "index.js"
