@@ -53,14 +53,14 @@
     "response-time": "^2.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.8.0",
-    "@commitlint/config-conventional": "^17.8.0",
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
     "@ladjs/passport": "^5.0.3",
     "ava": "^5.3.1",
     "axe": "^12.2.3",
     "cabin": "^13.2.5",
     "cross-env": "^7.0.3",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "eslint-config-xo-lass": "^2.0.1",
     "fixpack": "^4.0.0",
     "husky": "^8.0.3",
