@@ -53,10 +53,10 @@
     "response-time": "^2.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.2.0",
-    "@commitlint/config-conventional": "^18.1.0",
-    "@ladjs/passport": "^5.0.3",
-    "ava": "^5.3.1",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@ladjs/passport": "^5.1.0",
+    "ava": "^6.0.1",
     "axe": "^12.2.3",
     "cabin": "^13.2.5",
     "cross-env": "^7.0.3",
@@ -66,7 +66,7 @@
     "husky": "^8.0.3",
     "ioredis": "^5.3.2",
     "ioredis-mock": "^8.9.0",
-    "lint-staged": "^15.0.2",
+    "lint-staged": "^15.2.0",
     "nyc": "^15.1.0",
     "pug": "^3.0.2",
     "remark-cli": "11",
