@@ -56,7 +56,7 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@ladjs/passport": "^5.1.0",
-    "ava": "^6.0.1",
+    "ava": "5",
     "axe": "^12.2.3",
     "cabin": "^13.2.5",
     "cross-env": "^7.0.3",
