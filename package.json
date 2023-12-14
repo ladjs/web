@@ -1,7 +1,7 @@
 {
   "name": "@ladjs/web",
   "description": "Web server for Lad",
-  "version": "21.0.11",
+  "version": "21.0.12",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "bugs": {
     "url": "https://github.com/ladjs/web/issues",
