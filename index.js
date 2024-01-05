@@ -259,12 +259,6 @@ class Web {
     // (needs to come before i18n so HSTS header gets added)
     if (this.config.helmet) app.use(helmet(this.config.helmet));
 
-    // remove X-XSS-Protection header from Helmet
-    app.use((ctx, next) => {
-      ctx.remove('X-XSS-Protection');
-      return next();
-    });
-
     // i18n
     if (this.config.i18n) {
       // create new @ladjs/i18n instance
