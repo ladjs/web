@@ -30,7 +30,7 @@
     "express-request-id": "1.4.1",
     "is-string-and-not-blank": "^0.0.2",
     "kcors": "^2.2.2",
-    "koa": "^3.0.0",
+    "koa": "2.16.0",
     "koa-404-handler": "^0.1.0",
     "koa-basic-auth": "^4.0.0",
     "koa-better-error-handler": "^11.0.4",
