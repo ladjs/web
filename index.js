@@ -95,6 +95,9 @@ class Web {
       sessionKeys: process.env.SESSION_KEYS
         ? process.env.SESSION_KEYS.split(',')
         : ['lad'],
+      prettyPrintedJSON: process.env.PRETTY_PRINTED_JSON
+        ? Boolean(process.env.PRETTY_PRINTED_JSON)
+        : false,
       cookiesKey: process.env.COOKIES_KEY || 'lad.sid',
       favicon: {
         path: path.resolve('./assets/img/favicon.ico'),
@@ -376,7 +379,8 @@ class Web {
     app.use(bodyParser());
 
     // pretty-printed json responses
-    app.use(json());
+    // (default unless in development/test environment)
+    app.use(json({ pretty: this.config.prettyPrintedJSON, param: 'pretty' }));
 
     // method override
     // (e.g. `<input type="hidden" name="_method" value="PUT" />`)
