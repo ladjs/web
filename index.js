@@ -288,6 +288,9 @@ class Web {
       return next();
     });
 
+    // compress/gzip
+    if (this.config.compress) app.use(compress(this.config.compress));
+
     // conditional-get
     app.use(conditional());
 
@@ -296,9 +299,6 @@ class Web {
 
     // cors
     if (this.config.cors) app.use(cors(this.config.cors));
-
-    // compress/gzip
-    if (this.config.compress) app.use(compress(this.config.compress));
 
     // cache support
     if (this.config.koaCash) app.use(koaCash(this.config.koaCash));
