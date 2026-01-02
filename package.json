@@ -11,6 +11,7 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
+    "@koa/etag": "^5.0.2",
     "@koa/router": "^13.1.1",
     "@ladjs/i18n": "^10.0.0",
     "@ladjs/koa-better-static": "^3.0.0",
@@ -41,7 +42,6 @@
     "koa-compress": "^5.1.1",
     "koa-conditional-get": "^3.0.0",
     "koa-connect": "^2.1.0",
-    "koa-etag": "4.0.0",
     "koa-favicon": "^2.1.0",
     "koa-generic-session": "^2.3.1",
     "koa-helmet": "5",
