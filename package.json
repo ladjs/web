@@ -14,7 +14,7 @@
     "@koa/etag": "^5.0.2",
     "@koa/router": "^13.1.1",
     "@ladjs/i18n": "^10.0.0",
-    "@ladjs/koa-better-static": "^3.0.0",
+    "@ladjs/koa-better-static": "^3.0.1",
     "@ladjs/koa-cache-responses": "^1.0.0",
     "@ladjs/koa-isajax": "^2.0.0",
     "@ladjs/koa-simple-ratelimit": "^4.1.1",
